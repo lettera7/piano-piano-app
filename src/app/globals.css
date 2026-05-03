@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream: #faf4e8;
+  --color-cream-dark: #f3ebd5;
+  --color-sage: #5e9e5e;
+  --color-sage-light: #8abb8a;
+  --color-sage-dark: #3d7a3d;
+  --color-golden: #f9d84a;
+  --color-golden-light: #fef9e7;
+  --color-terracotta: #f0a07a;
+  --color-warmgray: #585848;
+  --color-warmgray-light: #a8a898;
+  --color-warmgray-dark: #282820;
+  --bottom-nav-height: 72px;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background-color: var(--color-cream);
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-warmgray-dark);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* Safe area for notched phones */
+.safe-bottom {
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 16px));
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Scrollable content area */
+.scroll-content {
+  height: calc(100dvh - var(--bottom-nav-height));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-3xl shadow-card;
+}
+
+.card-hover {
+  @apply transition-shadow duration-200 hover:shadow-card-hover active:scale-[0.99];
+}
+
+/* Meal status colors */
+.status-done {
+  @apply bg-sage-100 border-sage-200 text-sage-600;
+}
+
+.status-modified {
+  @apply bg-golden-100 border-golden-200 text-amber-600;
+}
+
+.status-skipped {
+  @apply bg-warmgray-100 border-warmgray-200 text-warmgray-400;
+}
+
+/* Typography */
+.heading-display {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d0d0c4;
+  border-radius: 2px;
+}
+
+/* Checkbox custom */
+input[type="checkbox"] {
+  accent-color: var(--color-sage);
+}
+
+/* Bottom nav blur */
+.bottom-nav-blur {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(250, 244, 232, 0.92);
+}
+
+/* Drawer/Sheet */
+.drawer-overlay {
+  background: rgba(40, 40, 32, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+/* Meal type badge */
+.meal-badge {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Stagger children */
+.stagger-children > * {
+  animation: slideUp 0.3s ease-out both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+
+/* Green dot pulse */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
