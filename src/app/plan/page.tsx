@@ -126,8 +126,8 @@ export default function PlanPage() {
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="text-sm font-medium text-warmgray-800">{meal.title}</span>
                             {meal.mealPrepTags && meal.mealPrepTags.length > 0 && (
-                              <span className="text-xs bg-golden/30 text-amber-700 px-2 py-0.5 rounded-full flex-shrink-0">
-                                prep
+                              <span className="text-xs bg-golden/30 text-amber-700 px-2 py-0.5 rounded-full flex-shrink-0" title="Questo pasto si può preparare in anticipo">
+                                🥄 da preparare prima
                               </span>
                             )}
                           </div>
@@ -159,8 +159,8 @@ export default function PlanPage() {
         {/* Meal prep link */}
         <Link href="/plan/meal-prep" className="flex items-center justify-between card border border-golden-200 bg-golden-100 px-4 py-4 hover:bg-golden-200 transition-colors">
           <div>
-            <p className="font-semibold text-amber-800 text-sm">🫙 Prepara prima</p>
-            <p className="text-xs text-amber-600 mt-0.5">Cosa conviene preparare in anticipo</p>
+            <p className="font-semibold text-amber-800 text-sm">🥄 Cosa preparare in anticipo</p>
+            <p className="text-xs text-amber-600 mt-0.5">Checklist pasti da cucinare prima per risparmiare tempo</p>
           </div>
           <ChevronRight className="w-4 h-4 text-amber-600" />
         </Link>

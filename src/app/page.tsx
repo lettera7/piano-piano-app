@@ -1,9 +1,9 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { it } from 'date-fns/locale'
-import { Leaf, ChevronRight } from 'lucide-react'
+import { Leaf, ChevronRight, ShoppingCart } from 'lucide-react'
 import AppShell from '@/components/AppShell'
 import MealCard from '@/components/MealCard'
 import { useAppStore } from '@/lib/store'
@@ -12,12 +12,14 @@ import planData from '@/data/plan.json'
 import type { Meal, MealStatus } from '@/types'
 import { NutritionPlan } from '@/types'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 const plan = planData as unknown as NutritionPlan
 
 export default function TodayPage() {
-  const { settings, completedMeals, setMealStatus, addCustomShoppingItem } = useAppStore()
+  const { settings, completedMeals, setMealStatus, customShoppingItems, addCustomShoppingItem } = useAppStore()
   const today = format(new Date(), 'yyyy-MM-dd')
+  const [toast, setToast] = useState<string | null>(null)
 
   const cycleInfo = useMemo(
     () => getCurrentCycleInfo(settings.planStartDate),
@@ -44,9 +46,30 @@ export default function TodayPage() {
   }
 
   const handleAddToShopping = (meal: Meal) => {
-    for (const ing of meal.ingredients) {
-      addCustomShoppingItem(`${ing.name} (${ing.quantity})`, ing.category)
+    if (meal.ingredients.length === 0) {
+      showToast('Nessun ingrediente da aggiungere')
+      return
     }
+    // Deduplicate: skip ingredients already in custom list
+    const existingNames = new Set(customShoppingItems.map(i => i.name.toLowerCase()))
+    let added = 0
+    for (const ing of meal.ingredients) {
+      const label = ing.quantity ? `${ing.name} — ${ing.quantity}` : ing.name
+      if (!existingNames.has(label.toLowerCase())) {
+        addCustomShoppingItem(label, ing.category)
+        added++
+      }
+    }
+    if (added === 0) {
+      showToast('Ingredienti già in lista')
+    } else {
+      showToast(`${added} ingredient${added === 1 ? 'e aggiunto' : 'i aggiunti'} alla spesa ✓`)
+    }
+  }
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2500)
   }
 
   const todayLabel = capitalizeFirst(format(new Date(), 'EEEE d MMMM', { locale: it }))
@@ -54,6 +77,15 @@ export default function TodayPage() {
 
   return (
     <AppShell>
+      {/* Toast notification */}
+      {toast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-slide-up">
+          <div className="flex items-center gap-2 bg-warmgray-900 text-white text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg whitespace-nowrap">
+            <ShoppingCart className="w-4 h-4 text-sage" />
+            {toast}
+          </div>
+        </div>
+      )}
       <div className="px-4 pt-4 pb-2 space-y-5 stagger-children">
         {/* Day header */}
         <div className="card p-5">

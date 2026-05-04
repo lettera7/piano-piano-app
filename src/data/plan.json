@@ -1,7 +1,7 @@
 {
-  "id": "piano-2sett-001",
-  "name": "Piano Nutrizionale 2 Settimane",
-  "description": "Piano assegnato dal nutrizionista — 2 settimane da ripetere ciclicamente",
+  "id": "piano-nutrizionista",
+  "name": "Il mio piano nutrizionale",
+  "description": "Piano personalizzato assegnato dalla nutrizionista",
   "weeks": [
     [
       {
@@ -10,86 +10,54 @@
         "label": "Lunedì",
         "meals": [
           {
-            "id": "w0d0-colazione",
+            "id": "w1-d1-colazione",
             "type": "colazione",
-            "title": "Cappuccino di soia + biscotti integrali",
-            "description": "Cappuccino con latte di soia non zuccherato, biscotti integrali senza zucchero aggiunto",
-            "quantity": "200ml latte soia + 3-4 biscotti",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-caffelatte-soia", "name": "Latte di soia non zuccherato", "quantity": "200 ml", "category": "latticini_vegetali" },
-              { "id": "ing-caffe", "name": "Caffè (espresso o americano)", "quantity": "1 tazza", "category": "dispensa" },
-              { "id": "ing-biscotti-int", "name": "Biscotti integrali senza zucchero", "quantity": "3-4 biscotti (30g)", "category": "cereali_pane" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d0-1", "title": "Tè verde + fette biscottate integrali", "description": "In alternativa al cappuccino, tè verde con 2 fette biscottate integrali con velo di confettura senza zucchero" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d0-spuntino-mattina",
+            "id": "w1-d1-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Banana + mandorle",
-            "description": "Frutta fresca di stagione con piccola porzione di frutta secca",
-            "quantity": "1 banana media + 15g mandorle",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 media (120g)", "category": "frutta" },
-              { "id": "ing-mandorle", "name": "Mandorle", "quantity": "15g (circa 12 mandorle)", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d0-1", "title": "Arancia + anacardi", "description": "Alternativa prevista: arancia al posto della banana, anacardi o crackers di semi al posto delle mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d0-pranzo",
+            "id": "w1-d1-pranzo",
             "type": "pranzo",
-            "title": "Pasta integrale con zucchine e trota",
-            "description": "Pasta integrale condita con zucchine saltate in padella e filetto di trota salmonata al vapore",
-            "quantity": "70g pasta + 150g trota + 200g zucchine",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-pasta-int", "name": "Pasta integrale", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-trota", "name": "Trota salmonata", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-zucchine", "name": "Zucchine", "quantity": "200g", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio (10ml)", "category": "dispensa" },
-              { "id": "ing-aglio", "name": "Aglio", "quantity": "1 spicchio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d0-1", "title": "Riso basmati con verdure e pollo", "description": "In alternativa: 70g riso basmati + 130g petto di pollo + verdure di stagione" }
-            ]
-          },
-          {
-            "id": "w0d0-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Yogurt di soia + kiwi",
-            "description": "Yogurt vegetale non zuccherato con frutta fresca",
-            "quantity": "125g yogurt soia + 1 kiwi",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia naturale", "quantity": "125g", "category": "latticini_vegetali" },
-              { "id": "ing-kiwi", "name": "Kiwi", "quantity": "1 (80g)", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d0-1", "title": "Yogurt di soia + arancia", "description": "Arancia oppure kiwi, a scelta" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d0-cena",
+            "id": "w1-d1-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w1-d1-cena",
             "type": "cena",
-            "title": "Petto di pollo con patate al forno e fagiolini",
-            "description": "Petto di pollo al forno con erbe aromatiche, patate arrosto e fagiolini al vapore",
-            "quantity": "150g pollo + 150g patate + 150g fagiolini",
-            "mealPrepTags": ["preparabile", "batch_cooking"],
-            "ingredients": [
-              { "id": "ing-pollo", "name": "Petto di pollo", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-patate", "name": "Patate", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-fagiolini", "name": "Fagiolini", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-rosmarino", "name": "Rosmarino fresco", "quantity": "q.b.", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d0-1", "title": "Hamburger/tagliata + piadina integrale", "description": "Hamburger di manzo o tagliata con piadina integrale e verdure grigliate" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -99,88 +67,54 @@
         "label": "Martedì",
         "meals": [
           {
-            "id": "w0d1-colazione",
+            "id": "w1-d2-colazione",
             "type": "colazione",
-            "title": "Pancake di avena + frutta fresca",
-            "description": "Pancake con farina d'avena, uovo, latte vegetale, serviti con frutta fresca di stagione",
-            "quantity": "2 pancake + 100g frutta",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-uovo", "name": "Uovo", "quantity": "1", "category": "proteine" },
-              { "id": "ing-latte-soia", "name": "Latte di soia", "quantity": "50ml", "category": "latticini_vegetali" },
-              { "id": "ing-mirtilli", "name": "Mirtilli", "quantity": "80g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d1-1", "title": "Uova strapazzate + pane integrale", "description": "Pancake oppure uova strapazzate con 1-2 fette di pane integrale tostato" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d1-spuntino-mattina",
+            "id": "w1-d2-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Mela + noci",
-            "description": "Frutta fresca con frutta secca",
-            "quantity": "1 mela + 20g noci (4-5 gherigli)",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-mela", "name": "Mela", "quantity": "1 media (150g)", "category": "frutta" },
-              { "id": "ing-noci", "name": "Noci", "quantity": "20g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d1-1", "title": "Pera + mandorle", "description": "Pera al posto della mela, mandorle oppure altri semi oleosi" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d1-pranzo",
+            "id": "w1-d2-pranzo",
             "type": "pranzo",
-            "title": "Riso basmati con lenticchie e spinaci",
-            "description": "Riso basmati cotto in brodo vegetale, lenticchie stufate con cipolla e pomodoro, spinaci saltati",
-            "quantity": "70g riso + 80g lenticchie secche + 150g spinaci",
-            "mealPrepTags": ["batch_cooking", "preparabile"],
-            "ingredients": [
-              { "id": "ing-riso-basmati", "name": "Riso basmati", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-lenticchie", "name": "Lenticchie secche", "quantity": "80g", "category": "legumi" },
-              { "id": "ing-spinaci", "name": "Spinaci freschi", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-cipolla", "name": "Cipolla", "quantity": "½ media", "category": "verdura" },
-              { "id": "ing-pomodori-pel", "name": "Pomodori pelati", "quantity": "100g", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d1-1", "title": "Quinoa con ceci e verdure", "description": "Quinoa al posto del riso, ceci al posto delle lenticchie" }
-            ]
-          },
-          {
-            "id": "w0d1-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Crackers di semi + hummus",
-            "description": "Crackers di semi (sesamo, girasole) con hummus di ceci fatto in casa",
-            "quantity": "3-4 crackers + 2 cucchiai hummus",
-            "mealPrepTags": ["ricorrente"],
-            "ingredients": [
-              { "id": "ing-crackers-semi", "name": "Crackers di semi", "quantity": "30g (3-4 crackers)", "category": "cereali_pane" },
-              { "id": "ing-hummus", "name": "Hummus di ceci", "quantity": "40g (2 cucchiai)", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d1-1", "title": "Anacardi + frutta fresca", "description": "Anacardi oppure crackers di semi, con frutta fresca a piacere" }
-            ]
-          },
-          {
-            "id": "w0d1-cena",
-            "type": "cena",
-            "title": "Merluzzo al forno con broccoli e avocado",
-            "description": "Filetto di merluzzo cotto al cartoccio con limone ed erbe, broccoli al vapore, mezzo avocado",
-            "quantity": "160g merluzzo + 200g broccoli + ½ avocado",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-merluzzo", "name": "Filetto di merluzzo", "quantity": "160g", "category": "proteine" },
-              { "id": "ing-broccoli", "name": "Broccoli", "quantity": "200g", "category": "verdura" },
-              { "id": "ing-avocado", "name": "Avocado", "quantity": "½ (70g)", "category": "frutta" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "½", "category": "frutta" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d1-1", "title": "Salmone con insalata mista", "description": "Salmone al vapore o alla piastra con insalata mista e olio evo" }
-            ]
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w1-d2-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w1-d2-cena",
+            "type": "cena",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -190,87 +124,54 @@
         "label": "Mercoledì",
         "meals": [
           {
-            "id": "w0d2-colazione",
+            "id": "w1-d3-colazione",
             "type": "colazione",
-            "title": "Porridge d'avena con banana e cannella",
-            "description": "Porridge caldo di fiocchi d'avena con latte vegetale, banana a fette, cannella",
-            "quantity": "50g avena + 200ml latte vegetale + 1 banana piccola",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-latte-avena", "name": "Latte d'avena", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-banana", "name": "Banana piccola", "quantity": "1 (80g)", "category": "frutta" },
-              { "id": "ing-cannella", "name": "Cannella in polvere", "quantity": "1 pizzico", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d2-1", "title": "Porridge con mirtilli", "description": "In alternativa alla banana, mirtilli freschi o frutti di bosco" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d2-spuntino-mattina",
+            "id": "w1-d3-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Arancia + mandorle",
-            "description": "Frutta ricca di vitamina C con frutta secca oleosa",
-            "quantity": "1 arancia + 15g mandorle",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-arancia", "name": "Arancia", "quantity": "1 (150g)", "category": "frutta" },
-              { "id": "ing-mandorle", "name": "Mandorle", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d2-1", "title": "Kiwi + mandorle", "description": "Kiwi oppure arancia" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d2-pranzo",
+            "id": "w1-d3-pranzo",
             "type": "pranzo",
-            "title": "Quinoa con pollo, avocado e pomodorini",
-            "description": "Quinoa cotta, petto di pollo grigliato a cubetti, avocado a fette, pomodorini, olio e limone",
-            "quantity": "70g quinoa + 130g pollo + ½ avocado + 100g pomodorini",
-            "mealPrepTags": ["batch_cooking", "preparabile"],
-            "ingredients": [
-              { "id": "ing-quinoa", "name": "Quinoa", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-pollo", "name": "Petto di pollo", "quantity": "130g", "category": "proteine" },
-              { "id": "ing-avocado", "name": "Avocado", "quantity": "½ (70g)", "category": "frutta" },
-              { "id": "ing-pomodorini", "name": "Pomodorini ciliegino", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "½", "category": "frutta" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d2-1", "title": "Riso integrale con tonno e verdure", "description": "Riso integrale con tonno al naturale e verdure crude" }
-            ]
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d2-spuntino-pomeriggio",
+            "id": "w1-d3-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Yogurt di mandorla + frutti rossi",
-            "description": "Yogurt vegetale alla mandorla con frutti di bosco freschi o surgelati",
-            "quantity": "125g yogurt + 80g frutti rossi",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-mandorla", "name": "Yogurt di mandorla naturale", "quantity": "125g", "category": "latticini_vegetali" },
-              { "id": "ing-frutti-bosco", "name": "Frutti di bosco misti", "quantity": "80g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d2-1", "title": "Yogurt di soia + banana", "description": "Yogurt di soia o mandorla, frutta a scelta" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d2-cena",
+            "id": "w1-d3-cena",
             "type": "cena",
-            "title": "Uova strapazzate con spinaci e pane integrale",
-            "description": "Uova strapazzate in padella antiaderente con spinaci saltati, servite con pane integrale tostato",
-            "quantity": "2-3 uova + 150g spinaci + 1-2 fette pane integrale",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-uova", "name": "Uova", "quantity": "2-3", "category": "proteine" },
-              { "id": "ing-spinaci", "name": "Spinaci freschi", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "1-2 fette (50g)", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaino", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d2-1", "title": "Frittata con verdure", "description": "Frittata al forno con zucchine o altre verdure" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -280,87 +181,54 @@
         "label": "Giovedì",
         "meals": [
           {
-            "id": "w0d3-colazione",
+            "id": "w1-d4-colazione",
             "type": "colazione",
-            "title": "Tè verde + fette biscottate integrali con avocado",
-            "description": "Tè verde caldo, fette biscottate integrali con avocado schiacciato e un pizzico di sale",
-            "quantity": "2 tazze tè + 2 fette biscottate + ½ avocado",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-te-verde", "name": "Tè verde", "quantity": "2 tazze", "category": "dispensa" },
-              { "id": "ing-fette-bisc", "name": "Fette biscottate integrali", "quantity": "2 (20g)", "category": "cereali_pane" },
-              { "id": "ing-avocado", "name": "Avocado", "quantity": "½ (70g)", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d3-1", "title": "Cappuccino di soia + biscotti integrali", "description": "In alternativa: cappuccino di soia con biscotti integrali senza zucchero" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d3-spuntino-mattina",
+            "id": "w1-d4-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Carote + hummus",
-            "description": "Carote lavate e tagliate a bastoncini con hummus di ceci",
-            "quantity": "2 carote medie + 2 cucchiai hummus",
-            "mealPrepTags": ["ricorrente", "preparabile"],
-            "ingredients": [
-              { "id": "ing-carote", "name": "Carote", "quantity": "2 medie (150g)", "category": "verdura" },
-              { "id": "ing-hummus", "name": "Hummus di ceci", "quantity": "40g", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d3-1", "title": "Sedano + hummus", "description": "Carote oppure sedano o cetriolo con hummus" }
-            ]
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d3-pranzo",
+            "id": "w1-d4-pranzo",
             "type": "pranzo",
-            "title": "Pasta integrale al pomodoro con ceci",
-            "description": "Pasta integrale con sugo di pomodoro fresco, ceci lessati, basilico",
-            "quantity": "70g pasta + 100g ceci lessati + 150g pomodori",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-pasta-int", "name": "Pasta integrale", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-ceci", "name": "Ceci (lessati o in scatola)", "quantity": "100g", "category": "legumi" },
-              { "id": "ing-pomodori-fr", "name": "Pomodori freschi", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-basilico", "name": "Basilico fresco", "quantity": "qualche foglia", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d3-1", "title": "Piadina integrale con ceci e verdure", "description": "1 piadina integrale con ceci, rucola e pomodori" }
-            ]
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d3-spuntino-pomeriggio",
+            "id": "w1-d4-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Banana + semi di girasole",
-            "description": "Banana matura con semi di girasole già porzionati",
-            "quantity": "1 banana + 15g semi di girasole",
-            "mealPrepTags": ["ricorrente"],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 media", "category": "frutta" },
-              { "id": "ing-semi-girasole", "name": "Semi di girasole", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d3-1", "title": "Mela + mandorle", "description": "Frutta fresca a scelta con mandorle oppure altri semi oleosi" }
-            ]
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d3-cena",
+            "id": "w1-d4-cena",
             "type": "cena",
-            "title": "Salmone con insalata di quinoa e verdure",
-            "description": "Salmone al vapore, quinoa tiepida con cetriolo, pomodorini e prezzemolo",
-            "quantity": "150g salmone + 60g quinoa + 200g verdure",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-salmone", "name": "Salmone fresco", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-quinoa", "name": "Quinoa", "quantity": "60g", "category": "cereali_pane" },
-              { "id": "ing-cetriolo", "name": "Cetriolo", "quantity": "½", "category": "verdura" },
-              { "id": "ing-pomodorini", "name": "Pomodorini", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-prezzemolo", "name": "Prezzemolo fresco", "quantity": "q.b.", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d3-1", "title": "Trota con verdure al forno", "description": "Trota salmonata al cartoccio con verdure di stagione al forno" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -370,88 +238,54 @@
         "label": "Venerdì",
         "meals": [
           {
-            "id": "w0d4-colazione",
+            "id": "w1-d5-colazione",
             "type": "colazione",
-            "title": "Cappuccino di avena + biscotti di farro",
-            "description": "Cappuccino con latte d'avena, biscotti di farro senza zuccheri aggiunti",
-            "quantity": "200ml latte avena + 3 biscotti",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-latte-avena", "name": "Latte d'avena", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-caffe", "name": "Caffè", "quantity": "1 tazza", "category": "dispensa" },
-              { "id": "ing-biscotti-farro", "name": "Biscotti di farro", "quantity": "3 (25g)", "category": "cereali_pane" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d4-1", "title": "Yogurt + frutta secca + frutta", "description": "Yogurt di soia con 1 cucchiaio di granola integrale e frutta di stagione" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d4-spuntino-mattina",
+            "id": "w1-d5-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Pera + anacardi",
-            "description": "Frutta fresca di stagione con frutta secca",
-            "quantity": "1 pera + 15g anacardi",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-pera", "name": "Pera", "quantity": "1 media (150g)", "category": "frutta" },
-              { "id": "ing-anacardi", "name": "Anacardi naturali", "quantity": "15g (circa 10 pezzi)", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d4-1", "title": "Mela + mandorle", "description": "Pera oppure mela, anacardi oppure mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d4-pranzo",
+            "id": "w1-d5-pranzo",
             "type": "pranzo",
-            "title": "Riso basmati con pollo al curry e piselli",
-            "description": "Riso basmati, petto di pollo a cubetti con curry leggero, piselli, cipolla",
-            "quantity": "70g riso + 130g pollo + 80g piselli",
-            "mealPrepTags": ["batch_cooking", "preparabile"],
-            "ingredients": [
-              { "id": "ing-riso-basmati", "name": "Riso basmati", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-pollo", "name": "Petto di pollo", "quantity": "130g", "category": "proteine" },
-              { "id": "ing-piselli", "name": "Piselli (freschi o surgelati)", "quantity": "80g", "category": "legumi" },
-              { "id": "ing-curry", "name": "Curry in polvere", "quantity": "½ cucchiaino", "category": "dispensa" },
-              { "id": "ing-cipolla", "name": "Cipolla", "quantity": "½", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d4-1", "title": "Pasta integrale con verdure e legumi", "description": "Pasta integrale con zucchine e fagioli bianchi" }
-            ]
-          },
-          {
-            "id": "w0d4-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Crackers di kamut + crema di mandorle",
-            "description": "Crackers integrali con 1 cucchiaino di crema di mandorle pura al 100%",
-            "quantity": "30g crackers + 1 cucchiaio crema mandorle",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-crackers-kamut", "name": "Crackers di kamut integrali", "quantity": "30g", "category": "cereali_pane" },
-              { "id": "ing-crema-mandorle", "name": "Crema di mandorle 100%", "quantity": "15g (1 cucchiaio)", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d4-1", "title": "Crackers di semi + hummus", "description": "Crackers di semi al posto di kamut, hummus al posto della crema di mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d4-cena",
+            "id": "w1-d5-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w1-d5-cena",
             "type": "cena",
-            "title": "Polpette di lenticchie con verdure grigliate",
-            "description": "Polpette di lenticchie rosse cotte al forno, servite con zucchine e peperoni grigliati",
-            "quantity": "150g polpette (5-6) + 250g verdure grigliate",
-            "mealPrepTags": ["batch_cooking", "preparabile", "ricorrente"],
-            "ingredients": [
-              { "id": "ing-lenticchie-rosse", "name": "Lenticchie rosse", "quantity": "100g (peso secco)", "category": "legumi" },
-              { "id": "ing-zucchine", "name": "Zucchine", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-peperoni", "name": "Peperoni", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-uovo", "name": "Uovo (per legare le polpette)", "quantity": "1", "category": "proteine" },
-              { "id": "ing-pangrattato-int", "name": "Pangrattato integrale", "quantity": "20g", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d4-1", "title": "Burger vegetale con insalata", "description": "Burger di legumi pronto con insalata mista e pomodori" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -461,91 +295,54 @@
         "label": "Sabato",
         "meals": [
           {
-            "id": "w0d5-colazione",
+            "id": "w1-d6-colazione",
             "type": "colazione",
-            "title": "Pancake integrali con confettura di mirtilli",
-            "description": "Pancake di grano saraceno e avena con confettura senza zuccheri aggiunti",
-            "quantity": "2-3 pancake + 1 cucchiaio confettura",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-farina-saraceno", "name": "Farina di grano saraceno", "quantity": "40g", "category": "cereali_pane" },
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena", "quantity": "20g", "category": "cereali_pane" },
-              { "id": "ing-uovo", "name": "Uovo", "quantity": "1", "category": "proteine" },
-              { "id": "ing-latte-soia", "name": "Latte di soia", "quantity": "80ml", "category": "latticini_vegetali" },
-              { "id": "ing-confettura-mir", "name": "Confettura di mirtilli senza zucchero", "quantity": "1 cucchiaio (20g)", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d5-1", "title": "Uova strapazzate + pane integrale", "description": "Pancake oppure uova strapazzate con pane integrale tostato" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d5-spuntino-mattina",
+            "id": "w1-d6-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Frutta di stagione + noci",
-            "description": "2 frutti di stagione a scelta (es. albicocche in estate, mandarini in inverno)",
-            "quantity": "2 frutti piccoli o 1 grande + 20g noci",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-frutta-stagione", "name": "Frutta di stagione", "quantity": "150-200g", "category": "frutta" },
-              { "id": "ing-noci", "name": "Noci", "quantity": "20g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d5-1", "title": "Frutta + mandorle", "description": "Noci oppure mandorle oppure altri semi oleosi" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d5-pranzo",
+            "id": "w1-d6-pranzo",
             "type": "pranzo",
-            "title": "Insalata completa con uova sode, ceci e verdure",
-            "description": "Insalata verde con uova sode, ceci, pomodori, cetriolo, olive, condita con olio e limone",
-            "quantity": "2 uova + 80g ceci + 200g verdure miste",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-uova", "name": "Uova sode", "quantity": "2", "category": "proteine" },
-              { "id": "ing-ceci", "name": "Ceci lessati", "quantity": "80g", "category": "legumi" },
-              { "id": "ing-insalata", "name": "Insalata mista (lattuga, rucola)", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-pomodori-fr", "name": "Pomodori", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-cetriolo", "name": "Cetriolo", "quantity": "½", "category": "verdura" },
-              { "id": "ing-olive", "name": "Olive nere", "quantity": "10 (20g)", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "½", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d5-1", "title": "Insalata con tonno e fagioli", "description": "Tonno al naturale + fagioli bianchi al posto di uova e ceci" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d5-spuntino-pomeriggio",
+            "id": "w1-d6-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Banana + cioccolato fondente",
-            "description": "Banana con 2 quadretti di cioccolato fondente (>70%)",
-            "quantity": "1 banana + 2 quadretti cioccolato (10g)",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 media", "category": "frutta" },
-              { "id": "ing-cioccolato", "name": "Cioccolato fondente >70%", "quantity": "10g (2 quadretti)", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d5-1", "title": "Frutta + frutta secca", "description": "Frutta a piacere + 15g mandorle o anacardi" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d5-cena",
+            "id": "w1-d6-cena",
             "type": "cena",
-            "title": "Pizza integrale fatta in casa con verdure",
-            "description": "Pizza con base integrale sottile, pomodoro, verdure grigliate, un filo d'olio evo",
-            "quantity": "1 base piccola (150g impasto) + abbondanti verdure",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-farina-int", "name": "Farina integrale", "quantity": "100g", "category": "cereali_pane" },
-              { "id": "ing-pomodori-pel", "name": "Salsa di pomodoro", "quantity": "80g", "category": "dispensa" },
-              { "id": "ing-zucchine", "name": "Zucchine", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-peperoni", "name": "Peperoni", "quantity": "80g", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d5-1", "title": "Piadina integrale con verdure e legumi", "description": "Piadina integrale con hummus, verdure arrosto e rucola" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -555,93 +352,54 @@
         "label": "Domenica",
         "meals": [
           {
-            "id": "w0d6-colazione",
+            "id": "w1-d7-colazione",
             "type": "colazione",
-            "title": "Brunch leggero: uova e avocado",
-            "description": "Uova all'occhio di bue o strapazzate con avocado, pane integrale tostato",
-            "quantity": "2 uova + ½ avocado + 2 fette pane integrale",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-uova", "name": "Uova", "quantity": "2", "category": "proteine" },
-              { "id": "ing-avocado", "name": "Avocado", "quantity": "½ (70g)", "category": "frutta" },
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "2 fette (60g)", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaino", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w0d6-1", "title": "Pancake con yogurt e frutta", "description": "Pancake integrali con yogurt di soia e frutta fresca" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d6-spuntino-mattina",
+            "id": "w1-d7-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Smoothie verde",
-            "description": "Frullato con spinacino, banana, latte vegetale, semi di chia",
-            "quantity": "250ml totale",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-spinacino", "name": "Spinacino (baby spinach)", "quantity": "30g", "category": "verdura" },
-              { "id": "ing-banana", "name": "Banana congelata", "quantity": "½ (60g)", "category": "frutta" },
-              { "id": "ing-latte-soia", "name": "Latte di soia", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-semi-chia", "name": "Semi di chia", "quantity": "1 cucchiaino (5g)", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w0d6-1", "title": "Frutta fresca + mandorle", "description": "Frutta di stagione con 15g mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d6-pranzo",
+            "id": "w1-d7-pranzo",
             "type": "pranzo",
-            "title": "Zuppa di legumi misti con pane integrale",
-            "description": "Zuppa ricca con ceci, lenticchie, fagioli, carote, sedano, pomodoro, servita con pane integrale",
-            "quantity": "300ml zuppa + 1-2 fette pane integrale",
-            "mealPrepTags": ["batch_cooking", "da_scongelare", "ricorrente"],
-            "ingredients": [
-              { "id": "ing-ceci", "name": "Ceci", "quantity": "60g (secchi)", "category": "legumi" },
-              { "id": "ing-lenticchie", "name": "Lenticchie", "quantity": "40g", "category": "legumi" },
-              { "id": "ing-carote", "name": "Carote", "quantity": "1 media", "category": "verdura" },
-              { "id": "ing-sedano", "name": "Sedano", "quantity": "1 costa", "category": "verdura" },
-              { "id": "ing-pomodori-pel", "name": "Polpa di pomodoro", "quantity": "100g", "category": "dispensa" },
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "2 fette (60g)", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w0d6-1", "title": "Minestrone con pasta integrale", "description": "Minestrone di verdure con 50g di pasta integrale corta" }
-            ]
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d6-spuntino-pomeriggio",
+            "id": "w1-d7-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Yogurt di soia + banana + cannella",
-            "description": "Yogurt vegetale con banana a fette e cannella",
-            "quantity": "125g yogurt + 1 banana piccola",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia naturale", "quantity": "125g", "category": "latticini_vegetali" },
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 piccola (80g)", "category": "frutta" },
-              { "id": "ing-cannella", "name": "Cannella", "quantity": "1 pizzico", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w0d6-1", "title": "Yogurt + frutti di bosco", "description": "Frutti di bosco al posto della banana" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w0d6-cena",
+            "id": "w1-d7-cena",
             "type": "cena",
-            "title": "Tagliata di manzo con rucola e pomodorini",
-            "description": "Tagliata di manzo magra alla piastra su letto di rucola, pomodorini, scaglie di parmigiano light",
-            "quantity": "150g manzo + 80g rucola + 100g pomodorini",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-manzo", "name": "Tagliata di manzo", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-rucola", "name": "Rucola", "quantity": "80g", "category": "verdura" },
-              { "id": "ing-pomodorini", "name": "Pomodorini", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-parmigiano", "name": "Parmigiano (scaglie)", "quantity": "10g", "category": "latticini_vegetali" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "½", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w0d6-1", "title": "Hamburger con insalata", "description": "Hamburger/tagliata oppure piadina integrale con verdure e proteine" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       }
@@ -653,89 +411,54 @@
         "label": "Lunedì",
         "meals": [
           {
-            "id": "w1d0-colazione",
+            "id": "w2-d1-colazione",
             "type": "colazione",
-            "title": "Porridge di quinoa con frutta secca",
-            "description": "Porridge con fiocchi di quinoa, latte di mandorla, miele di acacia (facoltativo), frutta secca",
-            "quantity": "50g quinoa soffiata/fiocchi + 200ml latte mandorla + 20g frutta secca",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-quinoa-fiocchi", "name": "Fiocchi di quinoa", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-latte-mandorla", "name": "Latte di mandorla non zuccherato", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-mandorle", "name": "Mandorle a lamelle", "quantity": "10g", "category": "frutta_secca_semi" },
-              { "id": "ing-noci", "name": "Noci tritate", "quantity": "10g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d0-1", "title": "Cappuccino soia + toast integrale", "description": "Cappuccino con latte di soia, 2 fette di pane integrale tostato con avocado" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d0-spuntino-mattina",
+            "id": "w2-d1-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Kiwi + anacardi",
-            "description": "Kiwi ricco di vitamina C con anacardi",
-            "quantity": "2 kiwi + 15g anacardi",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-kiwi", "name": "Kiwi", "quantity": "2 (160g)", "category": "frutta" },
-              { "id": "ing-anacardi", "name": "Anacardi", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d0-1", "title": "Arancia + mandorle", "description": "Kiwi oppure arancia, anacardi oppure mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d0-pranzo",
+            "id": "w2-d1-pranzo",
             "type": "pranzo",
-            "title": "Farro con verdure arrosto e feta",
-            "description": "Farro lessato, melanzane e pomodori arrosto, feta sbriciolata, basilico e olio evo",
-            "quantity": "70g farro + 200g verdure + 30g feta",
-            "mealPrepTags": ["batch_cooking", "preparabile"],
-            "ingredients": [
-              { "id": "ing-farro", "name": "Farro perlato", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-melanzane", "name": "Melanzane", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-pomodori-fr", "name": "Pomodori", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-feta", "name": "Feta", "quantity": "30g", "category": "latticini_vegetali" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" },
-              { "id": "ing-basilico", "name": "Basilico fresco", "quantity": "q.b.", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d0-1", "title": "Orzo con verdure e formaggi light", "description": "Orzo perlato al posto del farro con le stesse verdure" }
-            ]
-          },
-          {
-            "id": "w1d0-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Mela + burro di arachidi",
-            "description": "Mela a fettine intinte in burro di arachidi 100% naturale",
-            "quantity": "1 mela + 1 cucchiaio burro arachidi",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-mela", "name": "Mela", "quantity": "1 media", "category": "frutta" },
-              { "id": "ing-burro-arachidi", "name": "Burro di arachidi 100%", "quantity": "15g (1 cucchiaio)", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d0-1", "title": "Pera + crema di mandorle", "description": "Pera al posto della mela, crema di mandorle al posto del burro di arachidi" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d0-cena",
+            "id": "w2-d1-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d1-cena",
             "type": "cena",
-            "title": "Seppie con piselli e riso integrale",
-            "description": "Seppie in umido leggero con piselli, servite con riso integrale",
-            "quantity": "160g seppie + 80g piselli + 60g riso integrale",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-seppie", "name": "Seppie pulite", "quantity": "160g", "category": "proteine" },
-              { "id": "ing-piselli", "name": "Piselli (freschi o surgelati)", "quantity": "80g", "category": "legumi" },
-              { "id": "ing-riso-integrale", "name": "Riso integrale", "quantity": "60g", "category": "cereali_pane" },
-              { "id": "ing-cipolla", "name": "Cipolla", "quantity": "½", "category": "verdura" },
-              { "id": "ing-pomodori-pel", "name": "Polpa di pomodoro", "quantity": "80g", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d0-1", "title": "Calamari con verdure e quinoa", "description": "Calamari grigliati con verdure al vapore e quinoa" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -745,88 +468,54 @@
         "label": "Martedì",
         "meals": [
           {
-            "id": "w1d1-colazione",
+            "id": "w2-d2-colazione",
             "type": "colazione",
-            "title": "Yogurt di soia + granola integrale + frutti rossi",
-            "description": "Yogurt vegetale con granola integrale artigianale e frutti di bosco freschi",
-            "quantity": "150g yogurt + 30g granola + 80g frutti rossi",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia naturale", "quantity": "150g", "category": "latticini_vegetali" },
-              { "id": "ing-granola", "name": "Granola integrale senza zucchero", "quantity": "30g", "category": "cereali_pane" },
-              { "id": "ing-frutti-bosco", "name": "Frutti di bosco misti", "quantity": "80g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d1-1", "title": "Yogurt + banana + fiocchi avena", "description": "Con banana a fette e fiocchi d'avena al posto della granola" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d1-spuntino-mattina",
+            "id": "w2-d2-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Banana + semi di zucca",
-            "description": "Banana con semi di zucca tostati e porzionati",
-            "quantity": "1 banana + 15g semi di zucca",
-            "mealPrepTags": ["ricorrente"],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 media", "category": "frutta" },
-              { "id": "ing-semi-zucca", "name": "Semi di zucca", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d1-1", "title": "Mela + semi misti", "description": "Frutta di stagione con semi misti a piacere" }
-            ]
-          },
-          {
-            "id": "w1d1-pranzo",
-            "type": "pranzo",
-            "title": "Pasta di legumi con broccoli e olio aromatico",
-            "description": "Pasta di ceci o lenticchie con broccoli saltati in aglio e olio, peperoncino",
-            "quantity": "70g pasta legumi + 200g broccoli",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-pasta-legumi", "name": "Pasta di ceci o lenticchie", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-broccoli", "name": "Broccoli", "quantity": "200g", "category": "verdura" },
-              { "id": "ing-aglio", "name": "Aglio", "quantity": "1 spicchio", "category": "dispensa" },
-              { "id": "ing-peperoncino", "name": "Peperoncino", "quantity": "q.b.", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d1-1", "title": "Pasta integrale con cime di rapa", "description": "Pasta integrale tradizionale con cime di rapa saltate in padella" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d1-spuntino-pomeriggio",
+            "id": "w2-d2-pranzo",
+            "type": "pranzo",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d2-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Fette biscottate integrali + hummus + cetriolo",
-            "description": "Fette biscottate integrali con hummus di ceci e fettine di cetriolo",
-            "quantity": "2 fette biscottate + 40g hummus + ½ cetriolo",
-            "mealPrepTags": ["ricorrente"],
-            "ingredients": [
-              { "id": "ing-fette-bisc", "name": "Fette biscottate integrali", "quantity": "2 (20g)", "category": "cereali_pane" },
-              { "id": "ing-hummus", "name": "Hummus di ceci", "quantity": "40g", "category": "dispensa" },
-              { "id": "ing-cetriolo", "name": "Cetriolo", "quantity": "½", "category": "verdura" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d1-1", "title": "Crackers + crema di verdure", "description": "Crackers di semi con crema di peperoni arrosto" }
-            ]
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d1-cena",
+            "id": "w2-d2-cena",
             "type": "cena",
-            "title": "Pollo al forno con patate dolci e bietola",
-            "description": "Petto di pollo marinato al limone e rosmarino, patate dolci a cubetti, bietola saltata",
-            "quantity": "150g pollo + 150g patata dolce + 150g bietola",
-            "mealPrepTags": ["preparabile", "batch_cooking"],
-            "ingredients": [
-              { "id": "ing-pollo", "name": "Petto di pollo", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-patata-dolce", "name": "Patata dolce", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-bietola", "name": "Bietola", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "1", "category": "frutta" },
-              { "id": "ing-rosmarino", "name": "Rosmarino", "quantity": "q.b.", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d1-1", "title": "Tacchino con verdure al forno", "description": "Petto di tacchino al posto del pollo, stesse verdure" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -836,91 +525,54 @@
         "label": "Mercoledì",
         "meals": [
           {
-            "id": "w1d2-colazione",
+            "id": "w2-d3-colazione",
             "type": "colazione",
-            "title": "Cappuccino di cocco + fette di pane di segale",
-            "description": "Cappuccino con latte di cocco non zuccherato, 2 fette di pane di segale con velo di confettura",
-            "quantity": "200ml latte cocco + 2 fette pane segale",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-latte-cocco", "name": "Latte di cocco da bevanda (non conserva)", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-caffe", "name": "Caffè", "quantity": "1 tazza", "category": "dispensa" },
-              { "id": "ing-pane-segale", "name": "Pane di segale a fette", "quantity": "2 fette (50g)", "category": "cereali_pane" },
-              { "id": "ing-confettura-mir", "name": "Confettura senza zucchero", "quantity": "1 cucchiaino", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d2-1", "title": "Tè + biscotti integrali", "description": "Tè verde o nero con biscotti integrali senza zucchero" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d2-spuntino-mattina",
+            "id": "w2-d3-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Pesca + mandorle",
-            "description": "Pesca o nettarina di stagione con mandorle",
-            "quantity": "1 pesca grande + 15g mandorle",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-pesca", "name": "Pesca o nettarina", "quantity": "1 grande (150g)", "category": "frutta" },
-              { "id": "ing-mandorle", "name": "Mandorle", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d2-1", "title": "Albicocche + noci", "description": "3 albicocche al posto della pesca, noci al posto delle mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d2-pranzo",
+            "id": "w2-d3-pranzo",
             "type": "pranzo",
-            "title": "Bowl di riso nero con gamberi e avocado",
-            "description": "Riso nero venere tiepido, gamberi saltati, avocado a fette, edamame, salsa tamari leggera",
-            "quantity": "70g riso nero + 120g gamberi + ½ avocado + 50g edamame",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-riso-nero", "name": "Riso nero venere", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-gamberi", "name": "Gamberi sgusciati", "quantity": "120g", "category": "proteine" },
-              { "id": "ing-avocado", "name": "Avocado", "quantity": "½ (70g)", "category": "frutta" },
-              { "id": "ing-edamame", "name": "Edamame (surgelati)", "quantity": "50g", "category": "legumi" },
-              { "id": "ing-tamari", "name": "Salsa tamari (gluten free)", "quantity": "1 cucchiaino", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d2-1", "title": "Bowl di quinoa con tonno e verdure", "description": "Quinoa al posto del riso nero, tonno al naturale al posto dei gamberi" }
-            ]
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d2-spuntino-pomeriggio",
+            "id": "w2-d3-spuntino_pomeriggio",
             "type": "spuntino_pomeriggio",
-            "title": "Yogurt + semi di chia + frutta",
-            "description": "Yogurt di soia con semi di chia lasciati gonfiare, frutta a piacere",
-            "quantity": "125g yogurt + 1 cucchiaino chia + 80g frutta",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia", "quantity": "125g", "category": "latticini_vegetali" },
-              { "id": "ing-semi-chia", "name": "Semi di chia", "quantity": "5g (1 cucchiaino)", "category": "frutta_secca_semi" },
-              { "id": "ing-frutta-stagione", "name": "Frutta di stagione", "quantity": "80g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d2-1", "title": "Yogurt + semi di lino + frutta", "description": "Semi di lino macinati al posto dei semi di chia" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d2-cena",
+            "id": "w2-d3-cena",
             "type": "cena",
-            "title": "Tofu saltato con verdure asiatiche e soba",
-            "description": "Tofu compatto saltato con zenzero, carote julienne, cavolo cinese, salsa tamari, noodles soba",
-            "quantity": "150g tofu + 70g soba + 200g verdure",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-tofu", "name": "Tofu compatto", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-soba", "name": "Noodles di grano saraceno (soba)", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-carote", "name": "Carote", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-cavolo-cinese", "name": "Cavolo cinese o pak choi", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-zenzero", "name": "Zenzero fresco", "quantity": "1 cm", "category": "dispensa" },
-              { "id": "ing-tamari", "name": "Salsa tamari", "quantity": "1 cucchiaio", "category": "dispensa" },
-              { "id": "ing-olio-sesamo", "name": "Olio di sesamo", "quantity": "1 cucchiaino", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d2-1", "title": "Tempeh saltato con riso integrale", "description": "Tempeh al posto del tofu, riso integrale al posto della soba" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -930,89 +582,54 @@
         "label": "Giovedì",
         "meals": [
           {
-            "id": "w1d3-colazione",
+            "id": "w2-d4-colazione",
             "type": "colazione",
-            "title": "Pancake di banana e avena",
-            "description": "Pancake naturalmente dolci con banana matura schiacciata e avena, senza zucchero aggiunto",
-            "quantity": "2 pancake grandi + frutta fresca",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana matura", "quantity": "1 grande (130g)", "category": "frutta" },
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-uovo", "name": "Uovo", "quantity": "1", "category": "proteine" },
-              { "id": "ing-frutti-bosco", "name": "Frutti di bosco (per accompagnare)", "quantity": "80g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d3-1", "title": "Uova strapazzate + toast integrale", "description": "Pancake oppure uova strapazzate con toast integrale" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d3-spuntino-mattina",
+            "id": "w2-d4-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Arancia rossa + mandorle",
-            "description": "Arancia rossa o tarocco con mandorle",
-            "quantity": "1 arancia + 15g mandorle",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-arancia", "name": "Arancia rossa", "quantity": "1 (150g)", "category": "frutta" },
-              { "id": "ing-mandorle", "name": "Mandorle", "quantity": "15g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d3-1", "title": "Mandarino + noci", "description": "2 mandarini al posto dell'arancia" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d3-pranzo",
+            "id": "w2-d4-pranzo",
             "type": "pranzo",
-            "title": "Zuppa di fagioli bianchi con cavolo nero",
-            "description": "Ribollita leggera: fagioli cannellini, cavolo nero, carote, pane integrale raffermo",
-            "quantity": "250ml zuppa + 1 fetta pane integrale",
-            "mealPrepTags": ["batch_cooking", "da_scongelare", "ricorrente"],
-            "ingredients": [
-              { "id": "ing-fagioli-bianchi", "name": "Fagioli cannellini", "quantity": "100g (lessati)", "category": "legumi" },
-              { "id": "ing-cavolo-nero", "name": "Cavolo nero", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-carote", "name": "Carote", "quantity": "1 media", "category": "verdura" },
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "1 fetta (30g)", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d3-1", "title": "Minestrone di verdure e legumi", "description": "Minestrone con verdure miste e legumi assortiti" }
-            ]
-          },
-          {
-            "id": "w1d3-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Carote e sedano + hummus",
-            "description": "Verdure crude tagliate a bastoncini con hummus di ceci",
-            "quantity": "1 carota + 2 coste sedano + 40g hummus",
-            "mealPrepTags": ["ricorrente", "preparabile"],
-            "ingredients": [
-              { "id": "ing-carote", "name": "Carote", "quantity": "1 media", "category": "verdura" },
-              { "id": "ing-sedano", "name": "Sedano", "quantity": "2 coste", "category": "verdura" },
-              { "id": "ing-hummus", "name": "Hummus di ceci", "quantity": "40g", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d3-1", "title": "Cetriolo + guacamole", "description": "Cetriolo e carote con guacamole leggero" }
-            ]
-          },
-          {
-            "id": "w1d3-cena",
-            "type": "cena",
-            "title": "Trota salmonata con spinaci e patate al forno",
-            "description": "Filetto di trota salmonata al cartoccio con limone, spinaci saltati, patate al rosmarino",
-            "quantity": "160g trota + 150g spinaci + 120g patate",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-trota", "name": "Trota salmonata", "quantity": "160g", "category": "proteine" },
-              { "id": "ing-spinaci", "name": "Spinaci freschi", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-patate", "name": "Patate", "quantity": "120g", "category": "verdura" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "1", "category": "frutta" },
-              { "id": "ing-rosmarino", "name": "Rosmarino", "quantity": "q.b.", "category": "dispensa" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d3-1", "title": "Salmone con verdure a vapore", "description": "Salmone al vapore con le stesse verdure" }
-            ]
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d4-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d4-cena",
+            "type": "cena",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -1022,91 +639,54 @@
         "label": "Venerdì",
         "meals": [
           {
-            "id": "w1d4-colazione",
+            "id": "w2-d5-colazione",
             "type": "colazione",
-            "title": "Tè matcha + overnight oats",
-            "description": "Tè matcha preparato con latte vegetale, overnight oats preparati la sera prima con chia",
-            "quantity": "200ml matcha latte + 50g avena preparata",
-            "mealPrepTags": ["preparabile", "ricorrente"],
-            "ingredients": [
-              { "id": "ing-matcha", "name": "Polvere di matcha", "quantity": "1 cucchiaino (2g)", "category": "dispensa" },
-              { "id": "ing-latte-avena", "name": "Latte d'avena", "quantity": "200ml", "category": "latticini_vegetali" },
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-semi-chia", "name": "Semi di chia", "quantity": "5g", "category": "frutta_secca_semi" },
-              { "id": "ing-banana", "name": "Banana a fette", "quantity": "½", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d4-1", "title": "Cappuccino soia + biscotti integrali", "description": "In alternativa se non si ha tempo per gli overnight oats" }
-            ]
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d4-spuntino-mattina",
+            "id": "w2-d5-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Uva + noci",
-            "description": "Uva nera o verde con gherigli di noci",
-            "quantity": "150g uva + 20g noci",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-uva", "name": "Uva", "quantity": "150g (un piccolo grappolo)", "category": "frutta" },
-              { "id": "ing-noci", "name": "Noci", "quantity": "20g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d4-1", "title": "Frutta di stagione + mandorle", "description": "Qualunque frutta fresca con 15g mandorle" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d4-pranzo",
+            "id": "w2-d5-pranzo",
             "type": "pranzo",
-            "title": "Couscous integrale con verdure marocchine e ceci",
-            "description": "Couscous integrale con carote, zucchine, ceci speziati (cumino, coriandolo), uvetta",
-            "quantity": "70g couscous + 80g ceci + 200g verdure",
-            "mealPrepTags": ["batch_cooking", "preparabile"],
-            "ingredients": [
-              { "id": "ing-couscous", "name": "Couscous integrale", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-ceci", "name": "Ceci lessati", "quantity": "80g", "category": "legumi" },
-              { "id": "ing-carote", "name": "Carote", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-zucchine", "name": "Zucchine", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-cumino", "name": "Cumino in polvere", "quantity": "½ cucchiaino", "category": "dispensa" },
-              { "id": "ing-uvetta", "name": "Uvetta sultanina", "quantity": "10g", "category": "frutta_secca_semi" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d4-1", "title": "Farro con ceci e verdure", "description": "Farro al posto del couscous con le stesse verdure e ceci" }
-            ]
-          },
-          {
-            "id": "w1d4-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Banana + cioccolato fondente + mandorle",
-            "description": "Banana con 2 quadretti di cioccolato fondente e una manciata di mandorle",
-            "quantity": "1 banana + 10g cioccolato + 10g mandorle",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "1 media", "category": "frutta" },
-              { "id": "ing-cioccolato", "name": "Cioccolato fondente >70%", "quantity": "10g", "category": "dispensa" },
-              { "id": "ing-mandorle", "name": "Mandorle", "quantity": "10g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d4-1", "title": "Frutta + frutta secca", "description": "Frutta a piacere con 15-20g frutta secca mista" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d4-cena",
+            "id": "w2-d5-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d5-cena",
             "type": "cena",
-            "title": "Hamburger di pollo con patate al forno e insalata",
-            "description": "Hamburger fatto in casa di pollo tritato con erbe, patate croccanti al forno, insalata mista",
-            "quantity": "130g hamburger pollo + 150g patate + insalata libera",
-            "mealPrepTags": ["preparabile"],
-            "ingredients": [
-              { "id": "ing-pollo-trit", "name": "Pollo tritato", "quantity": "130g", "category": "proteine" },
-              { "id": "ing-patate", "name": "Patate", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-insalata", "name": "Insalata mista", "quantity": "80g", "category": "verdura" },
-              { "id": "ing-pomodori-fr", "name": "Pomodoro a fette", "quantity": "1 pomodoro", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d4-1", "title": "Hamburger/tagliata oppure piadina integrale", "description": "Piadina integrale con pollo o tonno e verdure fresche" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -1116,90 +696,54 @@
         "label": "Sabato",
         "meals": [
           {
-            "id": "w1d5-colazione",
+            "id": "w2-d6-colazione",
             "type": "colazione",
-            "title": "French toast integrale con frutta",
-            "description": "Fette di pane integrale immerse in uovo e latte vegetale, cotte in padella, con frutta fresca",
-            "quantity": "2 fette pane + 1 uovo + frutta",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "2 fette spesse (70g)", "category": "cereali_pane" },
-              { "id": "ing-uovo", "name": "Uovo", "quantity": "1", "category": "proteine" },
-              { "id": "ing-latte-soia", "name": "Latte di soia", "quantity": "30ml", "category": "latticini_vegetali" },
-              { "id": "ing-frutta-stagione", "name": "Frutta fresca di stagione", "quantity": "150g", "category": "frutta" },
-              { "id": "ing-cannella", "name": "Cannella", "quantity": "1 pizzico", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d5-1", "title": "Pancake con yogurt e frutta", "description": "Pancake integrali con yogurt di soia e frutta fresca" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d5-spuntino-mattina",
+            "id": "w2-d6-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Smoothie con banana e frutti rossi",
-            "description": "Frullato di banana, frutti di bosco, yogurt di soia, semi di chia",
-            "quantity": "250ml totale",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-banana", "name": "Banana", "quantity": "½", "category": "frutta" },
-              { "id": "ing-frutti-bosco", "name": "Frutti di bosco", "quantity": "80g", "category": "frutta" },
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia", "quantity": "80g", "category": "latticini_vegetali" },
-              { "id": "ing-semi-chia", "name": "Semi di chia", "quantity": "5g", "category": "frutta_secca_semi" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d5-1", "title": "Frutta intera + noci", "description": "Frutta fresca con 20g noci" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d5-pranzo",
+            "id": "w2-d6-pranzo",
             "type": "pranzo",
-            "title": "Risotto di farro con asparagi e limone",
-            "description": "Farro mantecato con brodo vegetale, asparagi, scorza di limone, olio evo a crudo",
-            "quantity": "70g farro + 150g asparagi",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-farro", "name": "Farro perlato", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-asparagi", "name": "Asparagi", "quantity": "150g", "category": "verdura" },
-              { "id": "ing-limone", "name": "Limone (scorza e succo)", "quantity": "½", "category": "frutta" },
-              { "id": "ing-cipolla", "name": "Cipolla o scalogno", "quantity": "½", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d5-1", "title": "Risotto di riso integrale con verdure", "description": "Riso integrale al posto del farro con verdure di stagione" }
-            ]
-          },
-          {
-            "id": "w1d5-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Yogurt di cocco + frutta tropicale",
-            "description": "Yogurt di cocco con ananas o mango freschi",
-            "quantity": "100g yogurt cocco + 100g frutta tropicale",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-yogurt-cocco", "name": "Yogurt di cocco naturale", "quantity": "100g", "category": "latticini_vegetali" },
-              { "id": "ing-ananas", "name": "Ananas fresco", "quantity": "100g", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d5-1", "title": "Yogurt di soia + frutta a scelta", "description": "Qualunque yogurt vegetale con frutta fresca" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d5-cena",
+            "id": "w2-d6-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d6-cena",
             "type": "cena",
-            "title": "Tagliata di manzo con verdure grigliate e quinoa",
-            "description": "Tagliata di manzo alla piastra, verdure grigliate miste, quinoa bianca come base",
-            "quantity": "150g manzo + 200g verdure + 50g quinoa",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-manzo", "name": "Tagliata di manzo", "quantity": "150g", "category": "proteine" },
-              { "id": "ing-zucchine", "name": "Zucchine", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-peperoni", "name": "Peperoni misti", "quantity": "100g", "category": "verdura" },
-              { "id": "ing-quinoa", "name": "Quinoa", "quantity": "50g", "category": "cereali_pane" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d5-1", "title": "Hamburger con insalata e piadina", "description": "Hamburger/tagliata oppure piadina integrale con verdure" }
-            ]
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       },
@@ -1209,91 +753,54 @@
         "label": "Domenica",
         "meals": [
           {
-            "id": "w1d6-colazione",
+            "id": "w2-d7-colazione",
             "type": "colazione",
-            "title": "Brunch domenicale: uova Benedict light",
-            "description": "Uova affogate su pane integrale tostato con spinaci saltati e salsa yogurt",
-            "quantity": "2 uova + 2 fette pane + 50g spinaci",
+            "title": "Colazione",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-uova", "name": "Uova", "quantity": "2", "category": "proteine" },
-              { "id": "ing-pane-int", "name": "Pane integrale", "quantity": "2 fette (60g)", "category": "cereali_pane" },
-              { "id": "ing-spinaci", "name": "Spinaci", "quantity": "50g", "category": "verdura" },
-              { "id": "ing-yogurt-soia", "name": "Yogurt di soia (per la salsa)", "quantity": "40g", "category": "latticini_vegetali" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaino", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-col-w1d6-1", "title": "Pancake integrali con sciroppo d'agave", "description": "Pancake con sciroppo d'agave e frutta fresca come alternativa festiva" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d6-spuntino-mattina",
+            "id": "w2-d7-spuntino_mattina",
             "type": "spuntino_mattina",
-            "title": "Macedonia di frutta fresca",
-            "description": "Macedonina con frutta di stagione, succo di limone e menta fresca",
-            "quantity": "200g frutta mista + menta + limone",
+            "title": "Spuntino mattina",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-frutta-stagione", "name": "Frutta mista di stagione", "quantity": "200g", "category": "frutta" },
-              { "id": "ing-limone", "name": "Succo di limone", "quantity": "½ limone", "category": "frutta" },
-              { "id": "ing-menta", "name": "Menta fresca", "quantity": "qualche foglia", "category": "dispensa" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp-w1d6-1", "title": "Frutta + frutta secca", "description": "Frutta di stagione con 15g mandorle o noci" }
-            ]
+            "ingredients": [],
+            "alternatives": []
           },
           {
-            "id": "w1d6-pranzo",
+            "id": "w2-d7-pranzo",
             "type": "pranzo",
-            "title": "Pasta integrale al pesto di basilico e pinoli",
-            "description": "Pasta integrale con pesto leggero di basilico, pinoli, olio evo, parmigiano in piccola quantità",
-            "quantity": "70g pasta + 2 cucchiai pesto + pomodorini",
-            "mealPrepTags": ["batch_cooking"],
-            "ingredients": [
-              { "id": "ing-pasta-int", "name": "Pasta integrale", "quantity": "70g", "category": "cereali_pane" },
-              { "id": "ing-basilico", "name": "Basilico fresco", "quantity": "30g (un mazzo)", "category": "dispensa" },
-              { "id": "ing-pinoli", "name": "Pinoli", "quantity": "15g", "category": "frutta_secca_semi" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "2 cucchiai", "category": "dispensa" },
-              { "id": "ing-parmigiano", "name": "Parmigiano reggiano", "quantity": "10g", "category": "latticini_vegetali" },
-              { "id": "ing-pomodorini", "name": "Pomodorini", "quantity": "100g", "category": "verdura" }
-            ],
-            "alternatives": [
-              { "id": "alt-pr-w1d6-1", "title": "Pasta integrale al pomodoro fresco", "description": "Sugo di pomodoro fresco e basilico senza pesto" }
-            ]
-          },
-          {
-            "id": "w1d6-spuntino-pomeriggio",
-            "type": "spuntino_pomeriggio",
-            "title": "Tè + biscotti di avena fatti in casa",
-            "description": "Tè verde o rooibos con 2-3 biscotti di avena senza zucchero preparati nel weekend",
-            "quantity": "1-2 tazze tè + 2-3 biscotti (30g)",
-            "mealPrepTags": ["batch_cooking", "ricorrente"],
-            "ingredients": [
-              { "id": "ing-te-verde", "name": "Tè verde o rooibos", "quantity": "1-2 tazze", "category": "dispensa" },
-              { "id": "ing-avena-fiocchi", "name": "Fiocchi d'avena (per i biscotti)", "quantity": "30g", "category": "cereali_pane" }
-            ],
-            "alternatives": [
-              { "id": "alt-sp2-w1d6-1", "title": "Tisana + frutta secca", "description": "Tisana a piacere con 20g frutta secca mista" }
-            ]
-          },
-          {
-            "id": "w1d6-cena",
-            "type": "cena",
-            "title": "Salmone in crosta di sesamo con insalata e riso",
-            "description": "Filetto di salmone impanato nei semi di sesamo, cotto in padella, con riso basmati e insalata",
-            "quantity": "160g salmone + 60g riso basmati + insalata",
+            "title": "Pranzo",
+            "description": "",
+            "quantity": "",
             "mealPrepTags": [],
-            "ingredients": [
-              { "id": "ing-salmone", "name": "Salmone fresco", "quantity": "160g", "category": "proteine" },
-              { "id": "ing-semi-sesamo", "name": "Semi di sesamo", "quantity": "20g", "category": "frutta_secca_semi" },
-              { "id": "ing-riso-basmati", "name": "Riso basmati", "quantity": "60g", "category": "cereali_pane" },
-              { "id": "ing-insalata", "name": "Insalata mista", "quantity": "80g", "category": "verdura" },
-              { "id": "ing-olio-evo", "name": "Olio extravergine di oliva", "quantity": "1 cucchiaio", "category": "dispensa" },
-              { "id": "ing-limone", "name": "Limone", "quantity": "½", "category": "frutta" }
-            ],
-            "alternatives": [
-              { "id": "alt-cena-w1d6-1", "title": "Merluzzo in crosta di erbe", "description": "Merluzzo al posto del salmone con stessa preparazione" }
-            ]
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d7-spuntino_pomeriggio",
+            "type": "spuntino_pomeriggio",
+            "title": "Spuntino pomeriggio",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
+          },
+          {
+            "id": "w2-d7-cena",
+            "type": "cena",
+            "title": "Cena",
+            "description": "",
+            "quantity": "",
+            "mealPrepTags": [],
+            "ingredients": [],
+            "alternatives": []
           }
         ]
       }
