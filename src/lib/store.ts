@@ -27,7 +27,12 @@ interface AppStore extends AppState {
   // Profiles
   updateProfileSettings: (profile: ProfileId, s: Partial<ProfileSettings>) => void
 
-  // Shopping
+  // Shopping — generated items checked state (by ingredientId/key)
+  checkedShoppingIds: string[]
+  toggleGeneratedShoppingItem: (ingredientId: string) => void
+  clearAllShoppingChecked: () => void
+
+  // Shopping — custom items
   setShoppingList: (items: ShoppingItem[]) => void
   toggleShoppingItem: (itemId: string) => void
   addCustomShoppingItem: (name: string, category: ShoppingCategory) => void
@@ -58,6 +63,8 @@ export const useAppStore = create<AppStore>()(
         marina: { name: 'Marina', quantityScale: 1.0 },
         luca:   { name: 'Luca',   quantityScale: 1.0 },
       },
+      // Persiste lo stato "spuntato" degli ingredienti generati (per ingredientId)
+      checkedShoppingIds: [],
 
       // ─── Settings ──────────────────────────────────────────────────────
       updateSettings: (s) =>
@@ -127,7 +134,23 @@ export const useAppStore = create<AppStore>()(
           },
         })),
 
-      // ─── Shopping ──────────────────────────────────────────────────────
+      // ─── Shopping: checked state persisted ─────────────────────────────
+      toggleGeneratedShoppingItem: (ingredientId) =>
+        set((state) => {
+          const ids = state.checkedShoppingIds
+          if (ids.includes(ingredientId)) {
+            return { checkedShoppingIds: ids.filter(id => id !== ingredientId) }
+          }
+          return { checkedShoppingIds: [...ids, ingredientId] }
+        }),
+
+      clearAllShoppingChecked: () =>
+        set((state) => ({
+          checkedShoppingIds: [],
+          customShoppingItems: state.customShoppingItems.map(i => ({ ...i, checked: false })),
+        })),
+
+      // ─── Shopping: legacy / custom items ───────────────────────────────
       setShoppingList: (items) => set({ shoppingList: items }),
 
       toggleShoppingItem: (itemId) =>

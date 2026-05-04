@@ -15,8 +15,8 @@ export function getCurrentCycleInfo(planStartDate: string, targetDate?: string):
   const target = targetDate ? startOfDay(parseISO(targetDate)) : startOfDay(new Date())
   
   const diffDays = differenceInDays(target, start)
-  const cycleDayRaw = ((diffDays % 14) + 14) % 14  // always 0-13
-  const cycleDay = cycleDayRaw + 1                  // 1-14
+  const cycleDayRaw = ((diffDays % 14) + 14) % 14
+  const cycleDay = cycleDayRaw + 1
 
   const weekIndex = cycleDayRaw < 7 ? 0 : 1
   const dayIndex = cycleDayRaw % 7
@@ -47,21 +47,105 @@ export function getCycleDatesForPeriod(planStartDate: string, daysFromToday: num
   })
 }
 
-// ─── Shopping List Generation ─────────────────────────────────────────────────
+// ─── Shopping List — Core Functions ──────────────────────────────────────────
+
+/**
+ * Normalizza il nome di un ingrediente per il confronto/deduplicazione.
+ * Rimuove: quantità iniziali, unità di misura, note parentetiche,
+ * alternative ("o", "/o"), testo dopo virgola.
+ *
+ * Esempi:
+ *  "10 g di mandorle"          → "mandorle"
+ *  "15-20 g di mandorle"       → "mandorle"
+ *  "1 banana"                  → "banana"
+ *  "Cappuccino di soia"        → "cappuccino di soia"
+ *  "verdure cotte"             → "verdure cotte"
+ *  "Pane integrale , o fette"  → "pane integrale"
+ */
+export function normalizeIngredientName(name: string): string {
+  let n = name.toLowerCase().trim()
+
+  // Rimuovi contenuto tra parentesi
+  n = n.replace(/\(.*?\)/g, '').trim()
+
+  // Rimuovi quantità iniziali con unità: "10 g di", "15-20 ml di", "1-2 "
+  // Pattern: numero (opzionalmente trattino-numero) + spazio + unità? + "di "?
+  n = n.replace(/^\d+(?:[,.]?\d+)?(?:\s*[-–]\s*\d+(?:[,.]?\d+)?)?\s*(?:g|gr|ml|kg|cl|l|dl|oz|mg)?\s*(?:di\s+)?/i, '').trim()
+
+  // Rimuovi "di " residuo all'inizio
+  n = n.replace(/^di\s+/i, '').trim()
+
+  // Tronca alle alternative: " , o ", " /o ", " o " (preceduta da spazio)
+  n = n.split(/\s*[,;]\s*(?:o\s+|oppure\s+)?|\s+\/o\s+/)[0].trim()
+
+  // Rimuovi " con " e tutto il resto (es. "1-2 carote piccole con hummus")
+  n = n.split(/\s+con\s+/)[0].trim()
+
+  // Normalizza accenti, spazi multipli
+  n = n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim()
+
+  return n || name.toLowerCase().trim()
+}
+
+/**
+ * Aggrega gli ingredienti, sommando quantità dove possibile.
+ * Restituisce una chiave stabile e il nome canonico (primo trovato, titolizzato).
+ */
+export function aggregateIngredients(
+  items: Array<{ name: string; quantity: string; category: ShoppingCategory }>
+): Array<{ key: string; name: string; quantity: string; category: ShoppingCategory; occurrences: number }> {
+  const map = new Map<string, {
+    name: string
+    quantities: string[]
+    category: ShoppingCategory
+    occurrences: number
+  }>()
+
+  for (const item of items) {
+    const key = normalizeIngredientName(item.name)
+
+    if (map.has(key)) {
+      const entry = map.get(key)!
+      entry.occurrences++
+      if (item.quantity && !entry.quantities.includes(item.quantity)) {
+        entry.quantities.push(item.quantity)
+      }
+    } else {
+      map.set(key, {
+        // Usa il nome più corto come nome canonico (senza "N g di" prefix)
+        name: item.name,
+        quantities: item.quantity ? [item.quantity] : [],
+        category: item.category,
+        occurrences: 1,
+      })
+    }
+  }
+
+  return Array.from(map.entries()).map(([key, val]) => ({
+    key,
+    name: val.name,
+    quantity: val.quantities.filter(Boolean).join(' + '),
+    category: val.category,
+    occurrences: val.occurrences,
+  }))
+}
 
 export type ShoppingPeriod = 'today' | 'next3' | 'week' | 'cycle'
 
-export function generateShoppingList(
+/**
+ * Genera la lista della spesa dal piano nutrizionale per il periodo scelto.
+ * Nessuna lista hardcoded — tutto viene dai dati reali del piano.
+ */
+export function getShoppingListFromPlan(
   weeks: DayPlan[][],
   planStartDate: string,
   period: ShoppingPeriod,
 ): ShoppingItem[] {
-  const today = new Date()
   let days: CurrentCycleInfo[] = []
 
   switch (period) {
     case 'today':
-      days = [getDateCycleInfo(planStartDate, today)]
+      days = [getDateCycleInfo(planStartDate, new Date())]
       break
     case 'next3':
       days = getCycleDatesForPeriod(planStartDate, 3)
@@ -70,25 +154,20 @@ export function generateShoppingList(
       days = getCycleDatesForPeriod(planStartDate, 7)
       break
     case 'cycle':
-      // All 14 days
-      days = Array.from({ length: 14 }, (_, i) => {
-        const weekIdx = i < 7 ? 0 : 1
-        const dayIdx = i % 7
-        return {
-          weekIndex: weekIdx,
-          dayIndex: dayIdx,
-          weekLabel: `Settimana ${weekIdx + 1}`,
-          dayLabel: '',
-          cycleDay: i + 1,
-          date: format(addDays(today, i), 'yyyy-MM-dd'),
-        }
-      })
+      // Tutti i 14 giorni del ciclo — usa gli indici, non le date
+      days = Array.from({ length: 14 }, (_, i) => ({
+        weekIndex: i < 7 ? 0 : 1,
+        dayIndex: i % 7,
+        weekLabel: `Settimana ${i < 7 ? 1 : 2}`,
+        dayLabel: '',
+        cycleDay: i + 1,
+        date: format(addDays(new Date(), i), 'yyyy-MM-dd'),
+      }))
       break
   }
 
-  // Aggregate ingredients — key by normalised name so the same ingredient
-  // is merged even if it appears at different positions across meals
-  const ingredientMap = new Map<string, { id: string; name: string; quantities: string[]; category: ShoppingCategory }>()
+  // Raccoglie tutti gli ingredienti del periodo
+  const rawIngredients: Array<{ name: string; quantity: string; category: ShoppingCategory }> = []
 
   for (const dayInfo of days) {
     const dayPlan = getDayPlan(weeks, dayInfo.weekIndex, dayInfo.dayIndex)
@@ -96,15 +175,10 @@ export function generateShoppingList(
 
     for (const meal of dayPlan.meals) {
       for (const ingredient of meal.ingredients) {
-        const key = ingredient.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-')
-        const existing = ingredientMap.get(key)
-        if (existing) {
-          existing.quantities.push(ingredient.quantity)
-        } else {
-          ingredientMap.set(key, {
-            id: key,
-            name: ingredient.name,
-            quantities: [ingredient.quantity],
+        if (ingredient.name?.trim()) {
+          rawIngredients.push({
+            name: ingredient.name.trim(),
+            quantity: ingredient.quantity?.trim() || '',
             category: ingredient.category,
           })
         }
@@ -112,26 +186,48 @@ export function generateShoppingList(
     }
   }
 
-  const items: ShoppingItem[] = []
-  ingredientMap.forEach((value, key) => {
-    items.push({
-      id: `shop-${key}`,
-      ingredientId: key,
-      name: value.name,
-      quantity: value.quantities.filter(Boolean).filter((q, i, arr) => arr.indexOf(q) === i).join(' + '),
-      category: value.category,
-      checked: false,
-    })
-  })
+  const aggregated = aggregateIngredients(rawIngredients)
 
-  // Sort by category
+  // Ordine categorie
   const categoryOrder: ShoppingCategory[] = [
     'frutta', 'verdura', 'cereali_pane', 'proteine', 'legumi',
     'frutta_secca_semi', 'latticini_vegetali', 'dispensa', 'altro'
   ]
+
+  const items: ShoppingItem[] = aggregated.map(a => ({
+    id: `shop-${a.key}`,
+    ingredientId: a.key,
+    name: a.name,
+    quantity: a.quantity,
+    category: a.category,
+    checked: false,
+  }))
+
   items.sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category))
 
   return items
+}
+
+// Alias per retrocompatibilità
+export function generateShoppingList(
+  weeks: DayPlan[][],
+  planStartDate: string,
+  period: ShoppingPeriod,
+): ShoppingItem[] {
+  return getShoppingListFromPlan(weeks, planStartDate, period)
+}
+
+// Unisce lista generata con elementi manuali, evitando duplicati per nome normalizzato
+export function mergeManualItems(
+  generated: ShoppingItem[],
+  manual: ShoppingItem[]
+): ShoppingItem[] {
+  const generatedKeys = new Set(generated.map(i => normalizeIngredientName(i.name)))
+  const uniqueManual = manual.filter(m => {
+    const key = normalizeIngredientName(m.name)
+    return !generatedKeys.has(key)
+  })
+  return [...generated, ...uniqueManual]
 }
 
 // ─── Meal Prep ────────────────────────────────────────────────────────────────
@@ -158,24 +254,15 @@ export function getMealPrepItems(weeks: DayPlan[][]): { meal: Meal; dayLabel: st
 
 // ─── Quantity Scaling ─────────────────────────────────────────────────────────
 
-/**
- * Moltiplica i valori numerici in una stringa di quantità.
- * Es: scaleQuantity("200g", 1.2) → "240g"
- *     scaleQuantity("1 cucchiaio", 1.1) → "1 cucchiaio"  (interi piccoli non scalati)
- *     scaleQuantity("a piacere", 1.2) → "a piacere"
- */
 export function scaleQuantity(qty: string, scale: number): string {
   if (!qty || scale === 1) return qty
-  // Only scale numbers >= 5 (grams/ml make sense; "1 egg" or "2 tbsp" would be weird)
   return qty.replace(/(\d+(?:[.,]\d+)?)/g, (match, numStr) => {
     const num = parseFloat(numStr.replace(',', '.'))
-    if (num < 5) return match // leave small counts (1 uovo, 2 cucchiai) unchanged
+    if (num < 5) return match
     const scaled = Math.round(num * scale)
     return String(scaled)
   })
 }
-
-
 
 export function formatDate(dateStr: string): string {
   return format(parseISO(dateStr), "EEEE d MMMM", { locale: it })
@@ -254,7 +341,6 @@ export function reportToText(report: WeeklyReportData): string {
 🍽️ Pasti completati: ${report.doneMeals}
 ✏️ Pasti modificati: ${report.modifiedMeals}
 ⏭️ Pasti saltati: ${report.skippedMeals}
-
 ${report.topQuestions.length > 0 ? `\n❓ Domande per il nutrizionista:\n${report.topQuestions.map(q => `• ${q}`).join('\n')}` : ''}
 
 Inviato da Piano Piano 🌿`

@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Trash2, CheckCheck, ShoppingCart, RotateCcw } from 'lucide-react'
+import { Plus, Trash2, CheckCheck, ShoppingCart, RotateCcw, Pencil, X } from 'lucide-react'
 import AppShell from '@/components/AppShell'
 import { useAppStore } from '@/lib/store'
-import { generateShoppingList, type ShoppingPeriod } from '@/lib/utils'
+import { getShoppingListFromPlan, normalizeIngredientName, type ShoppingPeriod } from '@/lib/utils'
 import planData from '@/data/plan.json'
 import type { NutritionPlan, ShoppingCategory } from '@/types'
 import { SHOPPING_CATEGORY_LABELS } from '@/types'
@@ -13,45 +13,79 @@ import { cn } from '@/lib/utils'
 const defaultPlan = planData as unknown as NutritionPlan
 
 const PERIOD_LABELS: Record<ShoppingPeriod, string> = {
-  today:  'Oggi',
-  next3:  '3 giorni',
-  week:   'Settimana',
-  cycle:  'Ciclo (14 gg)',
+  today: 'Oggi',
+  next3: '3 giorni',
+  week:  'Settimana',
+  cycle: 'Ciclo 14gg',
 }
 
 const CATEGORY_ICONS: Record<ShoppingCategory, string> = {
-  frutta: '🍎',
-  verdura: '🥦',
-  cereali_pane: '🌾',
-  proteine: '🐟',
-  legumi: '🫘',
-  frutta_secca_semi: '🌰',
-  latticini_vegetali: '🥛',
-  dispensa: '🧂',
-  altro: '📦',
+  frutta:              '🍎',
+  verdura:             '🥦',
+  cereali_pane:        '🌾',
+  proteine:            '🐟',
+  legumi:              '🫘',
+  frutta_secca_semi:   '🌰',
+  latticini_vegetali:  '🥛',
+  dispensa:            '🧂',
+  altro:               '📦',
 }
 
+type EditState = { id: string; value: string } | null
+
 export default function ShoppingPage() {
-  const { settings, customShoppingItems, toggleShoppingItem, addCustomShoppingItem, removeShoppingItem, customPlan } = useAppStore()
+  const {
+    settings, customShoppingItems, customPlan,
+    checkedShoppingIds,
+    toggleGeneratedShoppingItem,
+    clearAllShoppingChecked,
+    toggleShoppingItem,
+    addCustomShoppingItem,
+    removeShoppingItem,
+  } = useAppStore()
+
   const plan = customPlan ?? defaultPlan
-  const [period, setPeriod] = useState<ShoppingPeriod>('week')
+
+  const [period, setPeriod]         = useState<ShoppingPeriod>('week')
   const [newItemName, setNewItemName] = useState('')
   const [showAddForm, setShowAddForm] = useState(false)
-  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set())
+  const [editState, setEditState]   = useState<EditState>(null)
+  const [addedFeedback, setAddedFeedback] = useState(false)
 
-  const generatedItems = useMemo(() => {
-    return generateShoppingList(plan.weeks, settings.planStartDate, period)
-  }, [period, settings.planStartDate])
-
-  const shoppingItems = useMemo(() =>
-    generatedItems.map(item => ({ ...item, checked: checkedIds.has(item.ingredientId) })),
-    [generatedItems, checkedIds]
+  // ── 1. Genera la lista dal piano (solo dati reali, niente hardcoded) ──────
+  const generatedItems = useMemo(
+    () => getShoppingListFromPlan(plan.weeks, settings.planStartDate, period),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [period, settings.planStartDate, plan]
   )
 
-  const allItems = useMemo(() => [
-    ...shoppingItems,
-    ...customShoppingItems
-  ], [shoppingItems, customShoppingItems])
+  // ── 2. Applica lo stato "spuntato" persistito ─────────────────────────────
+  const checkedSet = useMemo(() => new Set(checkedShoppingIds), [checkedShoppingIds])
+
+  const shoppingItems = useMemo(
+    () => generatedItems.map(item => ({ ...item, checked: checkedSet.has(item.ingredientId) })),
+    [generatedItems, checkedSet]
+  )
+
+  // ── 3. Deduplicazione item custom rispetto a lista generata ───────────────
+  const generatedKeys = useMemo(
+    () => new Set(shoppingItems.map(i => normalizeIngredientName(i.name))),
+    [shoppingItems]
+  )
+
+  const filteredCustom = useMemo(
+    () => customShoppingItems.filter(m => {
+      const key = normalizeIngredientName(m.name)
+      return !generatedKeys.has(key)
+    }),
+    [customShoppingItems, generatedKeys]
+  )
+
+  // ── 4. Lista completa per conteggi e raggruppamento ───────────────────────
+  const allItems = useMemo(
+    () => [...shoppingItems, ...filteredCustom],
+    [shoppingItems, filteredCustom]
+  )
 
   const grouped = useMemo(() => {
     const map = new Map<ShoppingCategory, typeof allItems>()
@@ -63,55 +97,57 @@ export default function ShoppingPage() {
   }, [allItems])
 
   const checkedCount = allItems.filter(i => i.checked).length
-  const totalCount = allItems.length
+  const totalCount   = allItems.length
+  const progressPct  = totalCount > 0 ? (checkedCount / totalCount) * 100 : 0
 
+  // ── Handlers ─────────────────────────────────────────────────────────────
   function handleToggle(item: typeof allItems[0]) {
     if (item.custom) {
       toggleShoppingItem(item.id)
     } else {
-      setCheckedIds(prev => {
-        const next = new Set(prev)
-        if (next.has(item.ingredientId)) next.delete(item.ingredientId)
-        else next.add(item.ingredientId)
-        return next
-      })
+      toggleGeneratedShoppingItem(item.ingredientId)
     }
   }
 
-  function handleClearChecked() {
-    setCheckedIds(new Set())
-    customShoppingItems.filter(i => i.checked).forEach(i => toggleShoppingItem(i.id))
+  function handleAddCustom() {
+    const name = newItemName.trim()
+    if (!name) return
+    addCustomShoppingItem(name, 'altro')
+    setNewItemName('')
+    setShowAddForm(false)
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 1500)
   }
 
-  function handlePeriodChange(p: ShoppingPeriod) {
-    setPeriod(p)
-    setCheckedIds(new Set())
-  }
-
-  const handleAddCustom = () => {
-    if (newItemName.trim()) {
-      addCustomShoppingItem(newItemName.trim(), 'altro')
-      setNewItemName('')
-      setShowAddForm(false)
-    }
+  function handleEditSave(id: string) {
+    // Per ora solo UI — in una versione futura useAppStore.updateCustomItem
+    setEditState(null)
   }
 
   return (
     <AppShell>
-      <div className="px-4 pt-4 pb-6 space-y-4">
+      <div className="px-4 pt-5 pb-8 space-y-5">
+
+        {/* ── Header ── */}
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="heading-display text-2xl font-bold text-warmgray-900">Lista della spesa</h2>
-            <p className="text-sm text-warmgray-500 mt-1">
-              {checkedCount > 0 ? `${checkedCount}/${totalCount} segnati` : `${totalCount} ingredienti`}
+            <h2 className="heading-display text-2xl font-bold text-warmgray-900 leading-tight">
+              Lista della spesa
+            </h2>
+            <p className="text-sm text-warmgray-400 mt-1">
+              {totalCount === 0
+                ? 'Nessun ingrediente'
+                : checkedCount > 0
+                ? `${checkedCount} di ${totalCount} acquistati`
+                : `${totalCount} ingredienti`}
             </p>
           </div>
           <div className="flex items-center gap-2">
             {checkedCount > 0 && (
               <button
-                onClick={handleClearChecked}
+                onClick={clearAllShoppingChecked}
                 className="w-9 h-9 flex items-center justify-center rounded-2xl bg-warmgray-100 text-warmgray-500 hover:bg-warmgray-200 transition-colors"
-                title="Azzera selezione"
+                title="Azzera tutto"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -119,25 +155,30 @@ export default function ShoppingPage() {
             <button
               onClick={() => setShowAddForm(v => !v)}
               className={cn(
-                "w-9 h-9 flex items-center justify-center rounded-2xl transition-colors shadow-sm",
-                showAddForm ? "bg-warmgray-200 text-warmgray-600" : "bg-sage text-white hover:bg-sage/90"
+                'w-9 h-9 flex items-center justify-center rounded-2xl transition-all shadow-sm',
+                showAddForm
+                  ? 'bg-warmgray-200 text-warmgray-600 rotate-45'
+                  : addedFeedback
+                  ? 'bg-sage text-white scale-110'
+                  : 'bg-sage text-white hover:bg-sage-500'
               )}
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 transition-transform" />
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {/* ── Selettore periodo ── */}
+        <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar -mx-1 px-1">
           {(Object.keys(PERIOD_LABELS) as ShoppingPeriod[]).map(p => (
             <button
               key={p}
-              onClick={() => handlePeriodChange(p)}
+              onClick={() => setPeriod(p)}
               className={cn(
-                "flex-shrink-0 text-sm font-medium px-4 py-2 rounded-2xl border transition-all",
+                'flex-shrink-0 text-sm font-medium px-4 py-2 rounded-2xl border transition-all',
                 period === p
-                  ? "bg-sage text-white border-sage shadow-sm"
-                  : "bg-white text-warmgray-600 border-warmgray-200 hover:border-sage/50"
+                  ? 'bg-sage text-white border-sage shadow-sm'
+                  : 'bg-white text-warmgray-600 border-warmgray-200 hover:border-sage/40'
               )}
             >
               {PERIOD_LABELS[p]}
@@ -145,37 +186,41 @@ export default function ShoppingPage() {
           ))}
         </div>
 
-        {totalCount > 0 && checkedCount > 0 && (
-          <div>
+        {/* ── Progress bar ── */}
+        {totalCount > 0 && (
+          <div className="space-y-1">
             <div className="h-1.5 bg-warmgray-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-sage rounded-full transition-all duration-500"
-                style={{ width: `${(checkedCount / totalCount) * 100}%` }}
+                style={{ width: `${progressPct}%` }}
               />
             </div>
-            {checkedCount === totalCount && (
-              <p className="text-center text-sm text-sage font-medium mt-2">✅ Lista completata!</p>
+            {checkedCount === totalCount && totalCount > 0 && (
+              <p className="text-center text-xs text-sage-600 font-semibold animate-fade-in">
+                🌿 Lista completata!
+              </p>
             )}
           </div>
         )}
 
+        {/* ── Form aggiunta manuale ── */}
         {showAddForm && (
-          <div className="card border border-sage/30 p-4 animate-slide-up">
-            <p className="text-sm font-medium text-warmgray-700 mb-2">Aggiungi voce manuale</p>
+          <div className="card border border-sage/20 p-4 space-y-3 animate-slide-up">
+            <p className="text-sm font-semibold text-warmgray-800">Aggiungi voce</p>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={newItemName}
                 onChange={e => setNewItemName(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAddCustom()}
-                placeholder="es. Limoni, Sale integrale…"
-                className="flex-1 bg-warmgray-50 border border-warmgray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-sage"
+                placeholder="es. Sale integrale, Limoni…"
+                className="flex-1 bg-warmgray-50 border border-warmgray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-sage transition-colors"
                 autoFocus
               />
               <button
                 onClick={handleAddCustom}
                 disabled={!newItemName.trim()}
-                className="px-4 py-2 bg-sage text-white rounded-xl text-sm font-medium hover:bg-sage/90 transition-colors disabled:opacity-40"
+                className="px-4 py-2.5 bg-sage text-white rounded-xl text-sm font-semibold hover:bg-sage-500 transition-colors disabled:opacity-40"
               >
                 Aggiungi
               </button>
@@ -183,75 +228,116 @@ export default function ShoppingPage() {
           </div>
         )}
 
+        {/* ── Empty state ── */}
         {totalCount === 0 && (
-          <div className="card p-10 text-center">
-            <ShoppingCart className="w-10 h-10 text-warmgray-300 mx-auto mb-3" />
-            <p className="text-warmgray-500 text-sm font-medium">Nessun ingrediente trovato</p>
-            <p className="text-warmgray-400 text-xs mt-1">Controlla che la data di inizio piano sia impostata correttamente nelle Impostazioni.</p>
+          <div className="card p-12 text-center space-y-3">
+            <div className="w-14 h-14 rounded-3xl bg-sage-50 flex items-center justify-center mx-auto">
+              <ShoppingCart className="w-7 h-7 text-sage-300" />
+            </div>
+            <div>
+              <p className="font-semibold text-warmgray-700">Nessun ingrediente trovato</p>
+              <p className="text-warmgray-400 text-sm mt-1 leading-relaxed max-w-[240px] mx-auto">
+                Controlla la data di inizio piano nelle Impostazioni.
+              </p>
+            </div>
           </div>
         )}
 
+        {/* ── Liste per categoria ── */}
         {(Object.keys(SHOPPING_CATEGORY_LABELS) as ShoppingCategory[]).map(cat => {
           const items = grouped.get(cat)
           if (!items || items.length === 0) return null
-          const catChecked = items.filter(i => i.checked).length
-          const allCatChecked = catChecked === items.length
+
+          const catChecked   = items.filter(i => i.checked).length
+          const allCatDone   = catChecked === items.length
 
           return (
-            <div key={cat}>
+            <div key={cat} className="animate-fade-in">
+              {/* Category header */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <span>{CATEGORY_ICONS[cat]}</span>
+                <span className="text-base">{CATEGORY_ICONS[cat]}</span>
                 <h3 className={cn(
-                  "text-sm font-semibold transition-colors",
-                  allCatChecked ? "text-warmgray-400" : "text-warmgray-700"
+                  'text-sm font-semibold transition-colors',
+                  allCatDone ? 'text-warmgray-300' : 'text-warmgray-700'
                 )}>
-                  {SHOPPING_CATEGORY_LABELS[cat]}
+                  {SHOPPING_CATEGORY_LABELS[cat].replace(/^[^\s]+\s/, '')}
                 </h3>
                 {catChecked > 0 && (
-                  <span className="text-xs text-warmgray-400 ml-auto">{catChecked}/{items.length}</span>
+                  <span className="text-xs text-warmgray-300 ml-auto tabular-nums">
+                    {catChecked}/{items.length}
+                  </span>
                 )}
               </div>
-              <div className="card border border-warmgray-100 overflow-hidden divide-y divide-warmgray-50">
+
+              {/* Items card */}
+              <div className="card border border-warmgray-100/80 overflow-hidden divide-y divide-warmgray-50">
                 {items.map(item => (
-                  <button
+                  <div
                     key={item.id}
-                    onClick={() => handleToggle(item)}
                     className={cn(
-                      "w-full flex items-center gap-3 px-4 py-3 transition-colors text-left",
-                      item.checked ? "bg-warmgray-50/70" : "hover:bg-warmgray-50/50"
+                      'flex items-center gap-3 px-4 py-3 transition-colors',
+                      item.checked ? 'bg-warmgray-50/60' : 'hover:bg-sage-50/30'
                     )}
                   >
-                    <div className={cn(
-                      "w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all",
-                      item.checked ? "bg-sage border-sage" : "border-warmgray-300 bg-white"
-                    )}>
-                      {item.checked && <CheckCheck className="w-3 h-3 text-white" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
+                    {/* Checkbox */}
+                    <button
+                      onClick={() => handleToggle(item)}
+                      className={cn(
+                        'w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200',
+                        item.checked
+                          ? 'bg-sage border-sage scale-95'
+                          : 'border-warmgray-300 bg-white hover:border-sage'
+                      )}
+                    >
+                      {item.checked && <CheckCheck className="w-3 h-3 text-white" strokeWidth={3} />}
+                    </button>
+
+                    {/* Item name + quantity */}
+                    <button
+                      onClick={() => handleToggle(item)}
+                      className="flex-1 min-w-0 text-left"
+                    >
                       <span className={cn(
-                        "text-sm block transition-all",
-                        item.checked ? "line-through text-warmgray-400" : "text-warmgray-800"
+                        'text-sm block transition-all leading-snug',
+                        item.checked ? 'line-through text-warmgray-300' : 'text-warmgray-800'
                       )}>
                         {item.name}
                       </span>
-                      {item.quantity && !item.custom && (
-                        <span className="text-xs text-warmgray-400">{item.quantity}</span>
+                      {item.quantity && (
+                        <span className={cn(
+                          'text-xs transition-colors',
+                          item.checked ? 'text-warmgray-300' : 'text-warmgray-400'
+                        )}>
+                          {item.quantity}
+                        </span>
                       )}
-                    </div>
+                      {item.custom && (
+                        <span className="text-[10px] text-sage-400 font-medium ml-1">aggiunto</span>
+                      )}
+                    </button>
+
+                    {/* Actions per item custom */}
                     {item.custom && (
-                      <div
+                      <button
                         onClick={e => { e.stopPropagation(); removeShoppingItem(item.id) }}
                         className="w-7 h-7 flex items-center justify-center rounded-lg text-warmgray-300 hover:text-red-400 hover:bg-red-50 transition-colors flex-shrink-0"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </div>
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     )}
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
           )
         })}
+
+        {/* Disclaimer */}
+        {totalCount > 0 && (
+          <p className="text-xs text-warmgray-300 text-center leading-relaxed pt-2">
+            Lista generata automaticamente dal piano nutrizionale
+          </p>
+        )}
       </div>
     </AppShell>
   )

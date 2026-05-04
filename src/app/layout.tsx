@@ -1,19 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-  weight: ['300', '400', '500', '600'],
-})
 
 export const metadata: Metadata = {
   title: 'Piano Piano',
@@ -24,9 +10,7 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
     title: 'Piano Piano',
   },
-  formatDetection: {
-    telephone: false,
-  },
+  formatDetection: { telephone: false },
   icons: {
     shortcut: '/icons/icon-192.png',
     apple: '/icons/icon-192.png',
@@ -34,25 +18,28 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#5e9e5e',
+  themeColor: '#4a8b5c',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="it">
       <head>
+        {/* Google Fonts — loaded at runtime (non bloccano il build) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
+        />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className={`${dmSans.className} bg-cream antialiased`}>
+      <body className="antialiased">
         {children}
       </body>
     </html>
