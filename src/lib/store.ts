@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import type {
   AppState, AppSettings, ProfileId, MealCompletion,
-  DiaryEntry, ShoppingItem, ShoppingCategory
+  DiaryEntry, ShoppingItem, ShoppingCategory, ProfileSettings
 } from '@/types'
 import { format } from 'date-fns'
 
@@ -23,6 +23,9 @@ interface AppStore extends AppState {
 
   // Plan
   setCustomPlan: (plan: import('@/types').NutritionPlan | null) => void
+
+  // Profiles
+  updateProfileSettings: (profile: ProfileId, s: Partial<ProfileSettings>) => void
 
   // Shopping
   setShoppingList: (items: ShoppingItem[]) => void
@@ -51,6 +54,10 @@ export const useAppStore = create<AppStore>()(
       shoppingList: [],
       customShoppingItems: [],
       customPlan: null,
+      profileSettings: {
+        marina: { name: 'Marina', quantityScale: 1.0 },
+        luca:   { name: 'Luca',   quantityScale: 1.0 },
+      },
 
       // ─── Settings ──────────────────────────────────────────────────────
       updateSettings: (s) =>
@@ -110,6 +117,15 @@ export const useAppStore = create<AppStore>()(
 
       // ─── Plan ──────────────────────────────────────────────────────────
       setCustomPlan: (plan) => set({ customPlan: plan }),
+
+      // ─── Profiles ──────────────────────────────────────────────────────
+      updateProfileSettings: (profile, s) =>
+        set((state) => ({
+          profileSettings: {
+            ...state.profileSettings,
+            [profile]: { ...state.profileSettings[profile], ...s },
+          },
+        })),
 
       // ─── Shopping ──────────────────────────────────────────────────────
       setShoppingList: (items) => set({ shoppingList: items }),

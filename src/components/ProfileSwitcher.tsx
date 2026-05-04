@@ -4,17 +4,24 @@ import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import type { ProfileId } from '@/types'
 
-const profiles: { id: ProfileId; name: string; emoji: string }[] = [
-  { id: 'marina', name: 'Marina', emoji: '🌸' },
-  { id: 'luca',   name: 'Luca',   emoji: '🌿' },
-]
+const EMOJIS: Record<ProfileId, string> = {
+  marina: '🌸',
+  luca:   '🌿',
+}
 
 interface ProfileSwitcherProps {
   compact?: boolean
 }
 
 export default function ProfileSwitcher({ compact }: ProfileSwitcherProps) {
-  const { settings, setActiveProfile } = useAppStore()
+  const { settings, setActiveProfile, profileSettings } = useAppStore()
+
+  const profiles = (['marina', 'luca'] as ProfileId[]).map(id => ({
+    id,
+    name: profileSettings[id]?.name || id,
+    emoji: EMOJIS[id],
+  }))
+
   const active = profiles.find(p => p.id === settings.activeProfile)!
 
   if (compact) {
@@ -24,7 +31,6 @@ export default function ProfileSwitcher({ compact }: ProfileSwitcherProps) {
           <span className="text-base">{active.emoji}</span>
           <span className="text-sm font-medium text-sage-700">{active.name}</span>
         </button>
-        {/* Dropdown */}
         <div className="absolute right-0 top-full mt-1 bg-white rounded-2xl shadow-card-hover border border-warmgray-100 overflow-hidden opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all z-50 min-w-[120px]">
           {profiles.map(p => (
             <button

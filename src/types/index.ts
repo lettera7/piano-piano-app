@@ -58,6 +58,11 @@ export interface NutritionPlan {
 
 export type ProfileId = 'marina' | 'luca'
 
+export interface ProfileSettings {
+  name: string
+  quantityScale: number   // 1.0 = 100%, 1.1 = +10%, 1.15 = +15%, 1.2 = +20%
+}
+
 export interface Profile {
   id: ProfileId
   name: string
@@ -113,6 +118,7 @@ export interface AppState {
   shoppingList: ShoppingItem[]
   customShoppingItems: ShoppingItem[]
   customPlan: NutritionPlan | null            // sovrascrive plan.json quando impostato
+  profileSettings: Record<ProfileId, ProfileSettings>
 }
 
 // ─── Utility Types ────────────────────────────────────────────────────────────

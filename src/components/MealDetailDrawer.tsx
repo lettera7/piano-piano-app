@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { X, Check, Shuffle, ShoppingCart, StickyNote, Tag, ChevronDown, ChevronUp } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, scaleQuantity } from '@/lib/utils'
 import type { Meal, MealCompletion, MealStatus } from '@/types'
 import { MEAL_LABELS, MEAL_ICONS, SHOPPING_CATEGORY_LABELS } from '@/types'
 
@@ -14,6 +14,7 @@ interface MealDetailDrawerProps {
   onClose: () => void
   onComplete: (mealId: string, status: MealStatus, note?: string) => void
   onAddToShopping: (meal: Meal) => void
+  quantityScale?: number
 }
 
 const MEAL_PREP_LABELS: Record<string, string> = {
@@ -24,7 +25,7 @@ const MEAL_PREP_LABELS: Record<string, string> = {
 }
 
 export default function MealDetailDrawer({
-  meal, completion, open, onClose, onComplete, onAddToShopping
+  meal, completion, open, onClose, onComplete, onAddToShopping, quantityScale = 1
 }: MealDetailDrawerProps) {
   const [noteText, setNoteText] = useState(completion?.note || '')
   const [showNote, setShowNote] = useState(false)
@@ -84,7 +85,7 @@ export default function MealDetailDrawer({
             {meal.quantity && (
               <div className="mt-2 inline-flex items-center gap-1.5 bg-sage-50 border border-sage-200 rounded-xl px-3 py-1.5">
                 <Tag className="w-3.5 h-3.5 text-sage-500" />
-                <span className="text-sm font-medium text-sage-700">{meal.quantity}</span>
+                <span className="text-sm font-medium text-sage-700">{scaleQuantity(meal.quantity, quantityScale)}</span>
               </div>
             )}
           </div>
@@ -97,7 +98,7 @@ export default function MealDetailDrawer({
                 {meal.ingredients.map(ing => (
                   <div key={ing.id} className="flex items-center justify-between py-1.5 border-b border-warmgray-100 last:border-0">
                     <span className="text-sm text-warmgray-700">{ing.name}</span>
-                    <span className="text-xs text-warmgray-400 ml-4">{ing.quantity}</span>
+                    <span className="text-xs text-warmgray-400 ml-4">{scaleQuantity(ing.quantity, quantityScale)}</span>
                   </div>
                 ))}
               </div>

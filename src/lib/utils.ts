@@ -154,7 +154,26 @@ export function getMealPrepItems(weeks: DayPlan[][]): { meal: Meal; dayLabel: st
   return results
 }
 
-// ─── Formatting ───────────────────────────────────────────────────────────────
+// ─── Quantity Scaling ─────────────────────────────────────────────────────────
+
+/**
+ * Moltiplica i valori numerici in una stringa di quantità.
+ * Es: scaleQuantity("200g", 1.2) → "240g"
+ *     scaleQuantity("1 cucchiaio", 1.1) → "1 cucchiaio"  (interi piccoli non scalati)
+ *     scaleQuantity("a piacere", 1.2) → "a piacere"
+ */
+export function scaleQuantity(qty: string, scale: number): string {
+  if (!qty || scale === 1) return qty
+  // Only scale numbers >= 5 (grams/ml make sense; "1 egg" or "2 tbsp" would be weird)
+  return qty.replace(/(\d+(?:[.,]\d+)?)/g, (match, numStr) => {
+    const num = parseFloat(numStr.replace(',', '.'))
+    if (num < 5) return match // leave small counts (1 uovo, 2 cucchiai) unchanged
+    const scaled = Math.round(num * scale)
+    return String(scaled)
+  })
+}
+
+
 
 export function formatDate(dateStr: string): string {
   return format(parseISO(dateStr), "EEEE d MMMM", { locale: it })

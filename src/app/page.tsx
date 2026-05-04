@@ -73,6 +73,8 @@ export default function TodayPage() {
     setTimeout(() => setToast(null), 2500)
   }
 
+  const quantityScale = useAppStore(s => s.profileSettings[profile]?.quantityScale ?? 1)
+
   const todayLabel = capitalizeFirst(format(new Date(), 'EEEE d MMMM', { locale: it }))
   const progressPct = totalMeals > 0 ? (doneCount / totalMeals) * 100 : 0
 
@@ -177,6 +179,7 @@ export default function TodayPage() {
                 completion={dayCompletions[meal.id]}
                 onComplete={handleComplete}
                 onAddToShopping={handleAddToShopping}
+                quantityScale={quantityScale}
               />
             ))}
           </div>

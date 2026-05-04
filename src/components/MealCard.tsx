@@ -13,6 +13,7 @@ interface MealCardProps {
   completion?: MealCompletion
   onComplete: (mealId: string, status: MealStatus, note?: string) => void
   onAddToShopping: (meal: Meal) => void
+  quantityScale?: number
 }
 
 const STATUS_CONFIG: Record<MealStatus, { label: string; classes: string; dotClass: string }> = {
@@ -22,7 +23,7 @@ const STATUS_CONFIG: Record<MealStatus, { label: string; classes: string; dotCla
   skipped:  { label: 'Saltato',    classes: 'bg-warmgray-100 border-warmgray-200',  dotClass: 'bg-warmgray-400'  },
 }
 
-export default function MealCard({ meal, date, completion, onComplete, onAddToShopping }: MealCardProps) {
+export default function MealCard({ meal, date, completion, onComplete, onAddToShopping, quantityScale = 1 }: MealCardProps) {
   const [open, setOpen] = useState(false)
   const status: MealStatus = completion?.status || 'pending'
   const cfg = STATUS_CONFIG[status]
@@ -124,6 +125,7 @@ export default function MealCard({ meal, date, completion, onComplete, onAddToSh
         onClose={() => setOpen(false)}
         onComplete={onComplete}
         onAddToShopping={onAddToShopping}
+        quantityScale={quantityScale}
       />
     </>
   )
