@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import type { MessageParam } from '@anthropic-ai/sdk/resources/messages'
 import { NextRequest, NextResponse } from 'next/server'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -89,29 +90,29 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer()
     const base64 = Buffer.from(bytes).toString('base64')
 
+    const message: MessageParam = {
+      role: 'user',
+      content: [
+        {
+          type: 'document',
+          source: {
+            type: 'base64',
+            media_type: 'application/pdf',
+            data: base64,
+          },
+        } as Anthropic.DocumentBlockParam,
+        {
+          type: 'text',
+          text: 'Estrai il piano nutrizionale da questo PDF e restituisci il JSON strutturato secondo le istruzioni. Non inventare nulla: usa solo le informazioni presenti nel documento.',
+        } as Anthropic.TextBlockParam,
+      ],
+    }
+
     const response = await client.messages.create({
       model: 'claude-opus-4-6',
       max_tokens: 8000,
       system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'document',
-              source: {
-                type: 'base64',
-                media_type: 'application/pdf',
-                data: base64,
-              },
-            } as Parameters<typeof client.messages.create>[0]['messages'][0]['content'][0],
-            {
-              type: 'text',
-              text: 'Estrai il piano nutrizionale da questo PDF e restituisci il JSON strutturato secondo le istruzioni. Non inventare nulla: usa solo le informazioni presenti nel documento.',
-            },
-          ],
-        },
-      ],
+      messages: [message],
     })
 
     const rawText = response.content
