@@ -86,8 +86,9 @@ export function generateShoppingList(
       break
   }
 
-  // Aggregate ingredients
-  const ingredientMap = new Map<string, { name: string; quantities: string[]; category: ShoppingCategory }>()
+  // Aggregate ingredients — key by normalised name so the same ingredient
+  // is merged even if it appears at different positions across meals
+  const ingredientMap = new Map<string, { id: string; name: string; quantities: string[]; category: ShoppingCategory }>()
 
   for (const dayInfo of days) {
     const dayPlan = getDayPlan(weeks, dayInfo.weekIndex, dayInfo.dayIndex)
@@ -95,11 +96,13 @@ export function generateShoppingList(
 
     for (const meal of dayPlan.meals) {
       for (const ingredient of meal.ingredients) {
-        const existing = ingredientMap.get(ingredient.id)
+        const key = ingredient.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-')
+        const existing = ingredientMap.get(key)
         if (existing) {
           existing.quantities.push(ingredient.quantity)
         } else {
-          ingredientMap.set(ingredient.id, {
+          ingredientMap.set(key, {
+            id: key,
             name: ingredient.name,
             quantities: [ingredient.quantity],
             category: ingredient.category,
@@ -111,12 +114,11 @@ export function generateShoppingList(
 
   const items: ShoppingItem[] = []
   ingredientMap.forEach((value, key) => {
-    const id = `shop-${key}`
     items.push({
-      id,
+      id: `shop-${key}`,
       ingredientId: key,
       name: value.name,
-      quantity: value.quantities.filter((q, i, arr) => arr.indexOf(q) === i).join(' + '),
+      quantity: value.quantities.filter(Boolean).filter((q, i, arr) => arr.indexOf(q) === i).join(' + '),
       category: value.category,
       checked: false,
     })

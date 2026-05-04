@@ -55,6 +55,12 @@ export default function MealCard({ meal, date, completion, onComplete, onAddToSh
               {meal.title}
             </h3>
 
+            {meal.ingredients.length > 0 && (
+              <p className="text-xs text-warmgray-400 mt-1 leading-relaxed line-clamp-2">
+                {meal.ingredients.map(i => i.quantity ? `${i.name} (${i.quantity})` : i.name).join(' · ')}
+              </p>
+            )}
+
             {meal.quantity && (
               <p className="text-xs text-warmgray-500 mt-0.5">{meal.quantity}</p>
             )}
