@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, FileUp, CheckCircle, AlertCircle, FileText, FileJson, Trash2 } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
-import type { NutritionPlan, ShoppingCategory, MealType } from '@/types'
+import type { NutritionPlan, ShoppingCategory, MealType, MealPrepTag } from '@/types'
 import { cn } from '@/lib/utils'
 
 // ─── Parser: converte il JSON con "segments" nel formato NutritionPlan ─────────
@@ -63,7 +63,7 @@ function parseMealText(rawText: string, mealType: MealType, weekIdx: number, day
     title,
     description: '',
     quantity: '',
-    mealPrepTags: [] as string[],
+    mealPrepTags: [] as MealPrepTag[],
     ingredients,
     alternatives: [],
   }
