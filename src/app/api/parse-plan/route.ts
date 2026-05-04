@@ -2,6 +2,9 @@ import Anthropic from '@anthropic-ai/sdk'
 import type { MessageParam } from '@anthropic-ai/sdk/resources/messages'
 import { NextRequest, NextResponse } from 'next/server'
 
+// Vercel: aumenta il timeout massimo a 60s (Hobby plan) o 300s (Pro)
+export const maxDuration = 60
+
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const SYSTEM_PROMPT = `Sei un assistente che legge piani nutrizionali in formato PDF e li converte in JSON strutturato.
@@ -109,8 +112,8 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await client.messages.create({
-      model: 'claude-opus-4-6',
-      max_tokens: 32000,
+      model: 'claude-sonnet-4-6',
+      max_tokens: 16000,
       system: SYSTEM_PROMPT,
       messages: [message],
     })
