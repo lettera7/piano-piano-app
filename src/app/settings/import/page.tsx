@@ -30,6 +30,7 @@ export default function ImportPage() {
     setFileName(file.name)
     setStage('parsing')
     setErrorMsg('')
+    setDebugText('')
 
     try {
       const formData = new FormData()
@@ -39,16 +40,51 @@ export default function ImportPage() {
         method: 'POST',
         body: formData,
       })
-      const data = await res.json()
 
-      if (!res.ok || data.error) {
+      if (!res.ok || !res.body) {
+        const data = await res.json().catch(() => ({}))
         setErrorMsg(data.error || 'Errore durante l\'analisi del PDF.')
+        setStage('error')
+        return
+      }
+
+      // Read streaming response — accumulate until __RESULT__ marker
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        if (buffer.includes('__RESULT__')) break
+      }
+
+      const markerIdx = buffer.lastIndexOf('__RESULT__')
+      if (markerIdx === -1) {
+        setErrorMsg('Risposta incompleta. Riprova.')
+        setStage('error')
+        return
+      }
+
+      const resultJson = buffer.slice(markerIdx + '__RESULT__'.length).trim()
+      let data: { plan?: unknown; error?: string; debug?: string }
+      try {
+        data = JSON.parse(resultJson)
+      } catch {
+        setErrorMsg('Errore nel parsing del risultato. Riprova.')
+        setStage('error')
+        return
+      }
+
+      if (data.error) {
+        setErrorMsg(data.error)
         if (data.debug) setDebugText(data.debug)
         setStage('error')
         return
       }
 
-      setParsedPlan(data.plan)
+      setParsedPlan(data.plan as NutritionPlan)
       setStage('preview')
     } catch (err) {
       setErrorMsg('Errore di rete. Controlla la connessione e riprova.')

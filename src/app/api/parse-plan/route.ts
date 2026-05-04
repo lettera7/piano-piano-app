@@ -1,9 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk'
 import type { MessageParam } from '@anthropic-ai/sdk/resources/messages'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
-// Vercel: aumenta il timeout massimo a 60s (Hobby plan) o 300s (Pro)
-export const maxDuration = 60
+export const runtime = 'edge' // Edge runtime: no timeout limit
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -81,28 +80,31 @@ export async function POST(req: NextRequest) {
     const file = formData.get('pdf') as File | null
 
     if (!file) {
-      return NextResponse.json({ error: 'Nessun file ricevuto' }, { status: 400 })
+      return new Response(JSON.stringify({ error: 'Nessun file ricevuto' }), { status: 400 })
     }
-    if (file.type !== 'application/pdf') {
-      return NextResponse.json({ error: 'Il file deve essere un PDF' }, { status: 400 })
+    if (!file.type.includes('pdf')) {
+      return new Response(JSON.stringify({ error: 'Il file deve essere un PDF' }), { status: 400 })
     }
     if (file.size > 20 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Il file è troppo grande (max 20MB)' }, { status: 400 })
+      return new Response(JSON.stringify({ error: 'Il file è troppo grande (max 20MB)' }), { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()
-    const base64 = Buffer.from(bytes).toString('base64')
+    // Edge runtime: use btoa on Uint8Array chunks
+    const uint8 = new Uint8Array(bytes)
+    let binary = ''
+    const chunkSize = 8192
+    for (let i = 0; i < uint8.length; i += chunkSize) {
+      binary += String.fromCharCode(...uint8.subarray(i, i + chunkSize))
+    }
+    const base64 = btoa(binary)
 
     const message: MessageParam = {
       role: 'user',
       content: [
         {
           type: 'document',
-          source: {
-            type: 'base64',
-            media_type: 'application/pdf',
-            data: base64,
-          },
+          source: { type: 'base64', media_type: 'application/pdf', data: base64 },
         } as Anthropic.DocumentBlockParam,
         {
           type: 'text',
@@ -111,73 +113,75 @@ export async function POST(req: NextRequest) {
       ],
     }
 
-    const response = await client.messages.create({
+    // Stream the response — keeps connection alive indefinitely on Edge runtime
+    const stream = client.messages.stream({
       model: 'claude-sonnet-4-6',
       max_tokens: 16000,
       system: SYSTEM_PROMPT,
       messages: [message],
     })
 
-    // Check if response was cut off
-    if (response.stop_reason === 'max_tokens') {
-      console.error('Response cut off at max_tokens limit')
-      return NextResponse.json(
-        { error: 'Il piano è troppo lungo per essere elaborato in una volta. Prova a dividere il PDF in due parti (settimana 1 e settimana 2) e importale separatamente.' },
-        { status: 422 }
-      )
-    }
+    const encoder = new TextEncoder()
+    let fullText = ''
 
-    const rawText = response.content
-      .filter((b) => b.type === 'text')
-      .map((b) => (b as { type: 'text'; text: string }).text)
-      .join('')
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            if (
+              event.type === 'content_block_delta' &&
+              event.delta.type === 'text_delta'
+            ) {
+              const chunk = event.delta.text
+              fullText += chunk
+              // Send progress chunks so the connection stays alive
+              controller.enqueue(encoder.encode(chunk))
+            }
+          }
 
-    // Try multiple strategies to extract JSON
-    let jsonStr = rawText.trim()
+          // After streaming ends, validate and send result as a special marker
+          let jsonStr = fullText.trim()
+            .replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+          if (!jsonStr.startsWith('{')) {
+            const s = jsonStr.indexOf('{'), e = jsonStr.lastIndexOf('}')
+            if (s !== -1 && e > s) jsonStr = jsonStr.slice(s, e + 1)
+          }
 
-    // Strategy 1: strip markdown fences
-    jsonStr = jsonStr
-      .replace(/^```json\s*/i, '')
-      .replace(/^```\s*/i, '')
-      .replace(/```\s*$/i, '')
-      .trim()
+          try {
+            const plan = JSON.parse(jsonStr)
+            if (!plan.weeks || !Array.isArray(plan.weeks) || plan.weeks.length === 0) {
+              controller.enqueue(encoder.encode('\n__RESULT__' + JSON.stringify({
+                error: 'Il piano estratto non ha la struttura corretta. Verifica che il PDF contenga un piano nutrizionale.'
+              })))
+            } else {
+              controller.enqueue(encoder.encode('\n__RESULT__' + JSON.stringify({ plan })))
+            }
+          } catch {
+            const preview = fullText.slice(0, 300).replace(/\n/g, ' ')
+            controller.enqueue(encoder.encode('\n__RESULT__' + JSON.stringify({
+              error: 'Impossibile interpretare la risposta di Claude.',
+              debug: preview,
+            })))
+          }
 
-    // Strategy 2: if still not valid, find the first { and last }
-    if (!jsonStr.startsWith('{')) {
-      const start = jsonStr.indexOf('{')
-      const end = jsonStr.lastIndexOf('}')
-      if (start !== -1 && end !== -1 && end > start) {
-        jsonStr = jsonStr.slice(start, end + 1)
-      }
-    }
+          controller.close()
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : 'Errore sconosciuto'
+          controller.enqueue(encoder.encode('\n__RESULT__' + JSON.stringify({ error: msg })))
+          controller.close()
+        }
+      },
+    })
 
-    let plan
-    try {
-      plan = JSON.parse(jsonStr)
-    } catch {
-      const preview = rawText.slice(0, 300).replace(/\n/g, ' ')
-      console.error('Failed to parse. stop_reason:', response.stop_reason, '| Preview:', preview)
-      return NextResponse.json(
-        {
-          error: `Impossibile interpretare la risposta di Claude. Riprova — se l'errore persiste, il PDF potrebbe avere un formato non supportato.`,
-          debug: preview, // visible in browser console
-        },
-        { status: 422 }
-      )
-    }
-
-    // Basic validation
-    if (!plan.weeks || !Array.isArray(plan.weeks) || plan.weeks.length === 0) {
-      return NextResponse.json(
-        { error: 'Il piano estratto non ha la struttura corretta. Verifica che il PDF contenga un piano nutrizionale.' },
-        { status: 422 }
-      )
-    }
-
-    return NextResponse.json({ plan })
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'X-Content-Type-Options': 'nosniff',
+        'Cache-Control': 'no-cache',
+      },
+    })
   } catch (err) {
-    console.error('parse-plan error:', err)
-    const message = err instanceof Error ? err.message : 'Errore sconosciuto'
-    return NextResponse.json({ error: `Errore durante l'analisi: ${message}` }, { status: 500 })
+    const msg = err instanceof Error ? err.message : 'Errore sconosciuto'
+    return new Response(JSON.stringify({ error: msg }), { status: 500 })
   }
 }
