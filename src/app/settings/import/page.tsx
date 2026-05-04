@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, FileUp, CheckCircle, AlertCircle, FileText, FileJson, Trash2 } from 'lucide-react'
 import { useAppStore } from '@/lib/store'
-import type { NutritionPlan, ShoppingCategory } from '@/types'
+import type { NutritionPlan, ShoppingCategory, MealType } from '@/types'
 import { cn } from '@/lib/utils'
 
 // ─── Parser: converte il JSON con "segments" nel formato NutritionPlan ─────────
@@ -39,7 +39,7 @@ const MEAL_TYPE_MAP: Record<string, string> = {
   'Cena': 'cena',
 }
 
-function parseMealText(rawText: string, mealType: string, weekIdx: number, dayIdx: number) {
+function parseMealText(rawText: string, mealType: MealType, weekIdx: number, dayIdx: number) {
   const parts = rawText.split(/\s*\+\s*/)
   const ingredients = parts.map((part, i) => {
     const qtyMatch = part.match(/\(([^)]+)\)/)
@@ -116,7 +116,7 @@ function parseSegmentsJson(raw: unknown): NutritionPlan {
         if (p === 'Cena:')      { pendingMealKey = 'Cena'; continue }
         if (p === 'Spuntino:')  { spuntinoCount++; pendingMealKey = `Spuntino${spuntinoCount}`; continue }
         if (pendingMealKey && p) {
-          const mealType = MEAL_TYPE_MAP[pendingMealKey] || 'altro'
+          const mealType = (MEAL_TYPE_MAP[pendingMealKey] || 'colazione') as MealType
           meals.push(parseMealText(p, mealType, weekNum - 1, dayIdx))
           pendingMealKey = null
         }
@@ -124,7 +124,7 @@ function parseSegmentsJson(raw: unknown): NutritionPlan {
 
       // Fill missing meal slots
       const existing = new Set(meals.map(m => m.type))
-      for (const t of ['colazione', 'spuntino_mattina', 'pranzo', 'spuntino_pomeriggio', 'cena']) {
+      for (const t of ['colazione', 'spuntino_mattina', 'pranzo', 'spuntino_pomeriggio', 'cena'] as MealType[]) {
         if (!existing.has(t)) meals.push({ id: `w${weekNum}-d${dayIdx + 1}-${t}`, type: t, title: '', description: '', quantity: '', mealPrepTags: [], ingredients: [], alternatives: [] })
       }
       const order = ['colazione', 'spuntino_mattina', 'pranzo', 'spuntino_pomeriggio', 'cena']
