@@ -120,18 +120,30 @@ export async function POST(req: NextRequest) {
       .map((b) => (b as { type: 'text'; text: string }).text)
       .join('')
 
-    // Strip possible markdown fences
-    const cleaned = rawText
+    // Try multiple strategies to extract JSON
+    let jsonStr = rawText.trim()
+
+    // Strategy 1: strip markdown fences
+    jsonStr = jsonStr
       .replace(/^```json\s*/i, '')
       .replace(/^```\s*/i, '')
       .replace(/```\s*$/i, '')
       .trim()
 
+    // Strategy 2: if still not valid, find the first { and last }
+    if (!jsonStr.startsWith('{')) {
+      const start = jsonStr.indexOf('{')
+      const end = jsonStr.lastIndexOf('}')
+      if (start !== -1 && end !== -1 && end > start) {
+        jsonStr = jsonStr.slice(start, end + 1)
+      }
+    }
+
     let plan
     try {
-      plan = JSON.parse(cleaned)
+      plan = JSON.parse(jsonStr)
     } catch {
-      console.error('Failed to parse Claude response:', cleaned.slice(0, 500))
+      console.error('Failed to parse Claude response. Raw text (first 1000 chars):', rawText.slice(0, 1000))
       return NextResponse.json(
         { error: 'Impossibile interpretare la risposta. Riprova o controlla che il PDF sia leggibile.' },
         { status: 422 }
