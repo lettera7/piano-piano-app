@@ -112,6 +112,7 @@ export interface AppState {
   diary: Record<string, DiaryEntry>           // date → entry
   shoppingList: ShoppingItem[]
   customShoppingItems: ShoppingItem[]
+  customPlan: NutritionPlan | null            // sovrascrive plan.json quando impostato
 }
 
 // ─── Utility Types ────────────────────────────────────────────────────────────

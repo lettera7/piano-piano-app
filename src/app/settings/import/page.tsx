@@ -1,159 +1,280 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, FileJson, PenLine, AlertCircle, CheckCircle } from 'lucide-react'
-import Link from 'next/link'
+import { ArrowLeft, FileUp, Loader2, CheckCircle, AlertCircle, FileText, Trash2 } from 'lucide-react'
+import { useAppStore } from '@/lib/store'
+import type { NutritionPlan } from '@/types'
+import { cn } from '@/lib/utils'
 
-type ImportMode = 'select' | 'json' | 'manual'
+type Stage = 'upload' | 'parsing' | 'preview' | 'error'
 
 export default function ImportPage() {
   const router = useRouter()
-  const [mode, setMode] = useState<ImportMode>('select')
-  const [jsonText, setJsonText] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { setCustomPlan, customPlan } = useAppStore()
 
-  function handleJsonImport() {
-    setError('')
+  const [stage, setStage] = useState<Stage>('upload')
+  const [errorMsg, setErrorMsg] = useState('')
+  const [parsedPlan, setParsedPlan] = useState<NutritionPlan | null>(null)
+  const [fileName, setFileName] = useState('')
+  const [dragOver, setDragOver] = useState(false)
+
+  async function handleFile(file: File) {
+    if (file.type !== 'application/pdf') {
+      setErrorMsg('Il file deve essere un PDF.')
+      setStage('error')
+      return
+    }
+    setFileName(file.name)
+    setStage('parsing')
+    setErrorMsg('')
+
     try {
-      const parsed = JSON.parse(jsonText)
-      if (!parsed.id || !parsed.weeks) {
-        setError('Il JSON non ha la struttura attesa. Assicurati di avere i campi "id" e "weeks".')
+      const formData = new FormData()
+      formData.append('pdf', file)
+
+      const res = await fetch('/api/parse-plan', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+
+      if (!res.ok || data.error) {
+        setErrorMsg(data.error || 'Errore durante l\'analisi del PDF.')
+        setStage('error')
         return
       }
-      // TODO: save to store when Supabase integration is added
-      // For now, show success message
-      setSuccess(true)
-    } catch {
-      setError('JSON non valido. Controlla la sintassi.')
+
+      setParsedPlan(data.plan)
+      setStage('preview')
+    } catch (err) {
+      setErrorMsg('Errore di rete. Controlla la connessione e riprova.')
+      setStage('error')
     }
   }
 
-  if (success) {
-    return (
-      <div className="min-h-screen bg-cream flex flex-col items-center justify-center p-6 gap-6">
-        <div className="card text-center p-8 max-w-sm w-full">
-          <CheckCircle className="w-12 h-12 text-sage mx-auto mb-4" />
-          <h2 className="text-xl font-display font-semibold text-warmgray-900 mb-2">Piano importato!</h2>
-          <p className="text-warmgray-600 text-sm mb-6">
-            Il tuo piano è stato caricato correttamente. Vai alla dashboard per iniziare.
-          </p>
-          <Link href="/" className="btn-primary block text-center">
-            Vai a Oggi
-          </Link>
-        </div>
-      </div>
-    )
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDragOver(false)
+    const file = e.dataTransfer.files[0]
+    if (file) handleFile(file)
   }
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (file) handleFile(file)
+  }
+
+  function confirmPlan() {
+    if (parsedPlan) {
+      setCustomPlan(parsedPlan)
+      router.push('/')
+    }
+  }
+
+  function removePlan() {
+    setCustomPlan(null)
+    setStage('upload')
+    setParsedPlan(null)
+    setFileName('')
+  }
+
+  // Count meals with actual content
+  const countMeals = (plan: NutritionPlan) =>
+    plan.weeks.flat().flatMap(d => d.meals).filter(m => m.title).length
+  const countIngredients = (plan: NutritionPlan) =>
+    plan.weeks.flat().flatMap(d => d.meals).flatMap(m => m.ingredients).length
 
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-cream/95 backdrop-blur border-b border-warmgray-100 px-4 py-3 flex items-center gap-3">
-        <button onClick={() => mode === 'select' ? router.back() : setMode('select')} className="p-2 rounded-xl hover:bg-warmgray-100">
+        <button
+          onClick={() => stage === 'parsing' ? null : (stage === 'preview' || stage === 'error' ? setStage('upload') : router.back())}
+          className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-warmgray-100 disabled:opacity-40"
+          disabled={stage === 'parsing'}
+        >
           <ArrowLeft className="w-5 h-5 text-warmgray-700" />
         </button>
-        <h1 className="font-display font-semibold text-warmgray-900">Importa piano</h1>
+        <h1 className="font-display font-semibold text-warmgray-900">Importa piano dal PDF</h1>
       </div>
 
-      <div className="p-4 pb-8">
+      <div className="p-4 pb-12 space-y-4">
 
-        {mode === 'select' && (
-          <div className="space-y-4 mt-2">
-            <p className="text-warmgray-600 text-sm leading-relaxed">
-              Hai un piano nutrizionale da caricare? Scegli come vuoi importarlo.
-            </p>
-
-            <button
-              onClick={() => setMode('json')}
-              className="card w-full p-5 text-left hover:border-sage transition-colors"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-sage/10 flex items-center justify-center flex-shrink-0">
-                  <FileJson className="w-5 h-5 text-sage" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-warmgray-900 mb-1">Incolla JSON</h3>
-                  <p className="text-sm text-warmgray-500 leading-relaxed">
-                    Se hai già il piano in formato JSON strutturato, incollalo qui per importarlo direttamente.
-                  </p>
-                </div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => setMode('manual')}
-              className="card w-full p-5 text-left hover:border-sage transition-colors"
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-golden/20 flex items-center justify-center flex-shrink-0">
-                  <PenLine className="w-5 h-5 text-golden-700" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-warmgray-900 mb-1">Inserimento manuale</h3>
-                  <p className="text-sm text-warmgray-500 leading-relaxed">
-                    Inserisci il piano giorno per giorno guidato da un form. Utile se hai il piano su carta o PDF.
-                  </p>
-                  <span className="inline-block mt-2 text-xs bg-golden/20 text-golden-800 px-2 py-0.5 rounded-full">Prossimamente</span>
-                </div>
-              </div>
-            </button>
-
-            <div className="card p-4 bg-warmgray-50 border-warmgray-100">
-              <div className="flex gap-3">
-                <AlertCircle className="w-4 h-4 text-warmgray-400 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-warmgray-500 leading-relaxed">
-                  Questa funzione serve solo per caricare piani già assegnati dal tuo nutrizionista.
-                  Piano Piano non crea o modifica piani nutrizionali.
+        {/* Piano attivo */}
+        {customPlan && stage === 'upload' && (
+          <div className="card border border-sage/40 bg-sage/5 p-4">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 text-sage mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-warmgray-900">Piano attivo: {customPlan.name}</p>
+                <p className="text-xs text-warmgray-500 mt-0.5">
+                  {countMeals(customPlan)} pasti · {countIngredients(customPlan)} ingredienti
                 </p>
               </div>
+              <button
+                onClick={removePlan}
+                className="w-8 h-8 flex items-center justify-center rounded-xl text-warmgray-300 hover:text-red-400 hover:bg-red-50 transition-colors"
+                title="Rimuovi piano"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
           </div>
         )}
 
-        {mode === 'json' && (
-          <div className="space-y-4 mt-2">
-            <p className="text-warmgray-600 text-sm leading-relaxed">
-              Incolla il JSON del tuo piano nutrizionale. Deve seguire la struttura standard con i campi <code className="bg-warmgray-100 px-1 rounded text-xs">id</code>, <code className="bg-warmgray-100 px-1 rounded text-xs">name</code> e <code className="bg-warmgray-100 px-1 rounded text-xs">weeks</code>.
-            </p>
+        {/* ── STAGE: UPLOAD ── */}
+        {stage === 'upload' && (
+          <>
+            <div className="card border border-warmgray-100 p-4 bg-amber-50/50">
+              <p className="text-sm text-amber-800 leading-relaxed">
+                📄 Carica il PDF del piano nutrizionale assegnato dalla tua nutrizionista.
+                Claude leggerà <strong>solo quello che c&apos;è scritto</strong> nel documento — nessun ingrediente inventato.
+              </p>
+            </div>
 
-            <textarea
-              value={jsonText}
-              onChange={(e) => { setJsonText(e.target.value); setError('') }}
-              placeholder={'{\n  "id": "mio-piano",\n  "name": "Il mio piano",\n  "weeks": [...]\n}'}
-              className="w-full h-64 p-4 rounded-2xl border border-warmgray-200 bg-white font-mono text-xs text-warmgray-800 focus:outline-none focus:border-sage resize-none"
-            />
-
-            {error && (
-              <div className="flex gap-2 p-3 bg-red-50 border border-red-100 rounded-xl">
-                <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-700">{error}</p>
-              </div>
-            )}
-
-            <button
-              onClick={handleJsonImport}
-              disabled={!jsonText.trim()}
-              className="btn-primary w-full disabled:opacity-40 disabled:cursor-not-allowed"
+            {/* Drop zone */}
+            <div
+              onDrop={handleDrop}
+              onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+              onDragLeave={() => setDragOver(false)}
+              onClick={() => fileInputRef.current?.click()}
+              className={cn(
+                "border-2 border-dashed rounded-3xl p-10 flex flex-col items-center gap-4 cursor-pointer transition-all",
+                dragOver
+                  ? "border-sage bg-sage/10"
+                  : "border-warmgray-200 bg-white hover:border-sage/60 hover:bg-sage/5"
+              )}
             >
-              Importa piano
+              <div className="w-14 h-14 rounded-2xl bg-sage/10 flex items-center justify-center">
+                <FileUp className="w-7 h-7 text-sage" />
+              </div>
+              <div className="text-center">
+                <p className="font-semibold text-warmgray-900">Trascina il PDF qui</p>
+                <p className="text-sm text-warmgray-400 mt-1">oppure tocca per selezionare il file</p>
+              </div>
+              <span className="text-xs text-warmgray-300">PDF · max 20MB</span>
+            </div>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf"
+              onChange={handleInputChange}
+              className="hidden"
+            />
+          </>
+        )}
+
+        {/* ── STAGE: PARSING ── */}
+        {stage === 'parsing' && (
+          <div className="card p-10 flex flex-col items-center gap-5 text-center">
+            <div className="relative">
+              <div className="w-16 h-16 rounded-2xl bg-sage/10 flex items-center justify-center">
+                <FileText className="w-8 h-8 text-sage" />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow">
+                <Loader2 className="w-4 h-4 text-sage animate-spin" />
+              </div>
+            </div>
+            <div>
+              <p className="font-semibold text-warmgray-900">Sto leggendo il piano…</p>
+              <p className="text-sm text-warmgray-500 mt-1 max-w-xs leading-relaxed">
+                Claude sta estraendo pasti e ingredienti dal tuo PDF. Può richiedere 20–40 secondi.
+              </p>
+            </div>
+            <div className="text-xs text-warmgray-400 bg-warmgray-50 px-3 py-2 rounded-xl">
+              📄 {fileName}
+            </div>
+          </div>
+        )}
+
+        {/* ── STAGE: ERROR ── */}
+        {stage === 'error' && (
+          <div className="space-y-4">
+            <div className="card border border-red-100 p-5 flex gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-red-700">Qualcosa è andato storto</p>
+                <p className="text-sm text-red-600 mt-1 leading-relaxed">{errorMsg}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => { setStage('upload'); fileInputRef.current?.click() }}
+              className="w-full py-3 bg-sage text-white rounded-2xl font-semibold text-sm hover:bg-sage/90 transition-colors"
+            >
+              Riprova con un altro file
             </button>
           </div>
         )}
 
-        {mode === 'manual' && (
-          <div className="space-y-4 mt-2 text-center py-12">
-            <div className="w-16 h-16 rounded-2xl bg-golden/20 flex items-center justify-center mx-auto">
-              <PenLine className="w-8 h-8 text-golden-700" />
+        {/* ── STAGE: PREVIEW ── */}
+        {stage === 'preview' && parsedPlan && (
+          <div className="space-y-4">
+            <div className="card border border-sage/30 bg-sage/5 p-4">
+              <div className="flex items-center gap-2 mb-1">
+                <CheckCircle className="w-5 h-5 text-sage" />
+                <p className="font-semibold text-warmgray-900 text-sm">Piano estratto con successo</p>
+              </div>
+              <p className="text-xs text-warmgray-500 ml-7">
+                {countMeals(parsedPlan)} pasti trovati · {countIngredients(parsedPlan)} ingredienti
+              </p>
             </div>
-            <h3 className="font-display font-semibold text-warmgray-900">In arrivo</h3>
-            <p className="text-sm text-warmgray-500 max-w-xs mx-auto leading-relaxed">
-              L&apos;inserimento manuale guidato è in sviluppo. Per ora puoi usare il formato JSON o modificare direttamente il file <code className="bg-warmgray-100 px-1 rounded text-xs">src/data/plan.json</code>.
-            </p>
-            <button onClick={() => setMode('select')} className="btn-secondary">
-              Torna indietro
-            </button>
+
+            {/* Preview weeks */}
+            {parsedPlan.weeks.map((week, wi) => (
+              <div key={wi}>
+                <h3 className="text-sm font-semibold text-warmgray-700 mb-2 px-1">
+                  Settimana {wi + 1}
+                </h3>
+                <div className="card border border-warmgray-100 divide-y divide-warmgray-50 overflow-hidden">
+                  {week.map(day => {
+                    const filledMeals = day.meals.filter(m => m.title)
+                    return (
+                      <div key={day.dayIndex} className="px-4 py-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <span className="text-sm font-medium text-warmgray-900 w-24 flex-shrink-0">
+                            {day.label}
+                          </span>
+                          <div className="flex-1 space-y-1">
+                            {filledMeals.length === 0 ? (
+                              <span className="text-xs text-warmgray-300 italic">nessun pasto</span>
+                            ) : filledMeals.map(meal => (
+                              <div key={meal.id} className="flex items-baseline gap-2">
+                                <span className="text-xs text-warmgray-400 w-14 flex-shrink-0 capitalize">
+                                  {meal.type === 'spuntino_mattina' ? 'spuntino' :
+                                   meal.type === 'spuntino_pomeriggio' ? 'merenda' : meal.type}
+                                </span>
+                                <span className="text-xs text-warmgray-700">{meal.title}</span>
+                                {meal.ingredients.length > 0 && (
+                                  <span className="text-xs text-warmgray-300">({meal.ingredients.length} ing.)</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
+
+            <div className="pt-2 space-y-2">
+              <button
+                onClick={confirmPlan}
+                className="w-full py-3.5 bg-sage text-white rounded-2xl font-semibold text-sm hover:bg-sage/90 transition-colors shadow-sm"
+              >
+                ✓ Usa questo piano
+              </button>
+              <button
+                onClick={() => setStage('upload')}
+                className="w-full py-3 bg-warmgray-100 text-warmgray-600 rounded-2xl font-semibold text-sm hover:bg-warmgray-200 transition-colors"
+              >
+                Carica un altro PDF
+              </button>
+            </div>
           </div>
         )}
       </div>

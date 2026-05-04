@@ -14,10 +14,11 @@ import { NutritionPlan } from '@/types'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-const plan = planData as unknown as NutritionPlan
+const defaultPlan = planData as unknown as NutritionPlan
 
 export default function TodayPage() {
-  const { settings, completedMeals, setMealStatus, customShoppingItems, addCustomShoppingItem } = useAppStore()
+  const { settings, completedMeals, setMealStatus, customShoppingItems, addCustomShoppingItem, customPlan } = useAppStore()
+  const plan = customPlan ?? defaultPlan
   const today = format(new Date(), 'yyyy-MM-dd')
   const [toast, setToast] = useState<string | null>(null)
 

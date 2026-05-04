@@ -9,7 +9,7 @@ import planData from '@/data/plan.json'
 import type { NutritionPlan, MealPrepTag, Meal } from '@/types'
 import { cn } from '@/lib/utils'
 
-const plan = planData as unknown as NutritionPlan
+const defaultPlan = planData as unknown as NutritionPlan
 
 const PREP_TAG_CONFIG: Record<MealPrepTag, { label: string; emoji: string; desc: string; bgClass: string }> = {
   batch_cooking: {
@@ -46,7 +46,8 @@ interface PrepItem {
 }
 
 export default function MealPrepPage() {
-  const { settings } = useAppStore()
+  const { settings, customPlan } = useAppStore()
+  const plan = customPlan ?? defaultPlan
   const [doneIds, setDoneIds] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'week' | 'all'>('week')
 

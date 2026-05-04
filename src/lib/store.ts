@@ -21,6 +21,9 @@ interface AppStore extends AppState {
   saveDiaryEntry: (date: string, entry: Partial<DiaryEntry>) => void
   getDiaryEntry: (date: string) => DiaryEntry | undefined
 
+  // Plan
+  setCustomPlan: (plan: import('@/types').NutritionPlan | null) => void
+
   // Shopping
   setShoppingList: (items: ShoppingItem[]) => void
   toggleShoppingItem: (itemId: string) => void
@@ -47,6 +50,7 @@ export const useAppStore = create<AppStore>()(
       diary: {},
       shoppingList: [],
       customShoppingItems: [],
+      customPlan: null,
 
       // ─── Settings ──────────────────────────────────────────────────────
       updateSettings: (s) =>
@@ -103,6 +107,9 @@ export const useAppStore = create<AppStore>()(
         })),
 
       getDiaryEntry: (date) => get().diary[date],
+
+      // ─── Plan ──────────────────────────────────────────────────────────
+      setCustomPlan: (plan) => set({ customPlan: plan }),
 
       // ─── Shopping ──────────────────────────────────────────────────────
       setShoppingList: (items) => set({ shoppingList: items }),

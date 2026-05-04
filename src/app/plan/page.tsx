@@ -13,10 +13,11 @@ import { MEAL_ICONS } from '@/types'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
-const plan = planData as unknown as NutritionPlan
+const defaultPlan = planData as unknown as NutritionPlan
 
 export default function PlanPage() {
-  const { settings, completedMeals } = useAppStore()
+  const { settings, completedMeals, customPlan } = useAppStore()
+  const plan = customPlan ?? defaultPlan
   const [selectedWeek, setSelectedWeek] = useState<0 | 1>(0)
   const today = format(new Date(), 'yyyy-MM-dd')
   const profile = settings.activeProfile

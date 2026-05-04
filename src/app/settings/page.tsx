@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { format } from 'date-fns'
-import { CalendarDays, Leaf, User2, Trash2, ExternalLink } from 'lucide-react'
+import { CalendarDays, Leaf, User2, Trash2, ExternalLink, ChevronRight } from 'lucide-react'
 import AppShell from '@/components/AppShell'
 import ProfileSwitcher from '@/components/ProfileSwitcher'
 import { useAppStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
 export default function SettingsPage() {
   const { settings, updateSettings, setPlanStartDate } = useAppStore()
@@ -99,15 +100,17 @@ export default function SettingsPage() {
 
         {/* Import plan */}
         <Section title="Importa piano" icon={<ExternalLink className="w-4 h-4" />}>
-          <div className="p-4">
-            <p className="text-sm text-warmgray-500 mb-3">
-              In questa versione il piano è già caricato. Nella prossima versione potrai importare un piano dal tuo nutrizionista.
+          <div className="p-4 space-y-3">
+            <p className="text-sm text-warmgray-500 leading-relaxed">
+              Carica il PDF del piano assegnato dalla tua nutrizionista. L&apos;app leggerà pasti e ingredienti <strong>esattamente come scritti</strong> nel documento.
             </p>
-            <div className="bg-golden-100 border border-golden-200 rounded-2xl p-3">
-              <p className="text-xs text-amber-700">
-                🚧 Import da PDF e inserimento manuale guidato in arrivo nella prossima versione.
-              </p>
-            </div>
+            <Link
+              href="/settings/import"
+              className="flex items-center justify-between w-full bg-sage text-white px-4 py-3 rounded-2xl font-semibold text-sm hover:bg-sage/90 transition-colors"
+            >
+              <span>📄 Carica il PDF del piano</span>
+              <ChevronRight className="w-4 h-4 opacity-70" />
+            </Link>
           </div>
         </Section>
 

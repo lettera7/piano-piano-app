@@ -10,7 +10,7 @@ import type { NutritionPlan, ShoppingCategory } from '@/types'
 import { SHOPPING_CATEGORY_LABELS } from '@/types'
 import { cn } from '@/lib/utils'
 
-const plan = planData as unknown as NutritionPlan
+const defaultPlan = planData as unknown as NutritionPlan
 
 const PERIOD_LABELS: Record<ShoppingPeriod, string> = {
   today:  'Oggi',
@@ -32,7 +32,8 @@ const CATEGORY_ICONS: Record<ShoppingCategory, string> = {
 }
 
 export default function ShoppingPage() {
-  const { settings, customShoppingItems, toggleShoppingItem, addCustomShoppingItem, removeShoppingItem } = useAppStore()
+  const { settings, customShoppingItems, toggleShoppingItem, addCustomShoppingItem, removeShoppingItem, customPlan } = useAppStore()
+  const plan = customPlan ?? defaultPlan
   const [period, setPeriod] = useState<ShoppingPeriod>('week')
   const [newItemName, setNewItemName] = useState('')
   const [showAddForm, setShowAddForm] = useState(false)
