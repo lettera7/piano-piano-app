@@ -16,6 +16,7 @@ export default function ImportPage() {
 
   const [stage, setStage] = useState<Stage>('upload')
   const [errorMsg, setErrorMsg] = useState('')
+  const [debugText, setDebugText] = useState('')
   const [parsedPlan, setParsedPlan] = useState<NutritionPlan | null>(null)
   const [fileName, setFileName] = useState('')
   const [dragOver, setDragOver] = useState(false)
@@ -42,6 +43,7 @@ export default function ImportPage() {
 
       if (!res.ok || data.error) {
         setErrorMsg(data.error || 'Errore durante l\'analisi del PDF.')
+        if (data.debug) setDebugText(data.debug)
         setStage('error')
         return
       }
@@ -198,6 +200,12 @@ export default function ImportPage() {
               <div>
                 <p className="text-sm font-semibold text-red-700">Qualcosa è andato storto</p>
                 <p className="text-sm text-red-600 mt-1 leading-relaxed">{errorMsg}</p>
+                {debugText && (
+                  <details className="mt-3">
+                    <summary className="text-xs text-red-400 cursor-pointer">Dettagli tecnici</summary>
+                    <p className="text-xs font-mono bg-red-50 rounded-lg p-2 mt-1 text-red-500 break-all">{debugText}</p>
+                  </details>
+                )}
               </div>
             </div>
             <button

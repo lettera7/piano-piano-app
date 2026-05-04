@@ -110,10 +110,19 @@ export async function POST(req: NextRequest) {
 
     const response = await client.messages.create({
       model: 'claude-opus-4-6',
-      max_tokens: 8000,
+      max_tokens: 32000,
       system: SYSTEM_PROMPT,
       messages: [message],
     })
+
+    // Check if response was cut off
+    if (response.stop_reason === 'max_tokens') {
+      console.error('Response cut off at max_tokens limit')
+      return NextResponse.json(
+        { error: 'Il piano è troppo lungo per essere elaborato in una volta. Prova a dividere il PDF in due parti (settimana 1 e settimana 2) e importale separatamente.' },
+        { status: 422 }
+      )
+    }
 
     const rawText = response.content
       .filter((b) => b.type === 'text')
@@ -143,9 +152,13 @@ export async function POST(req: NextRequest) {
     try {
       plan = JSON.parse(jsonStr)
     } catch {
-      console.error('Failed to parse Claude response. Raw text (first 1000 chars):', rawText.slice(0, 1000))
+      const preview = rawText.slice(0, 300).replace(/\n/g, ' ')
+      console.error('Failed to parse. stop_reason:', response.stop_reason, '| Preview:', preview)
       return NextResponse.json(
-        { error: 'Impossibile interpretare la risposta. Riprova o controlla che il PDF sia leggibile.' },
+        {
+          error: `Impossibile interpretare la risposta di Claude. Riprova — se l'errore persiste, il PDF potrebbe avere un formato non supportato.`,
+          debug: preview, // visible in browser console
+        },
         { status: 422 }
       )
     }
