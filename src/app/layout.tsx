@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#4a8b5c',
+  themeColor: '#f5f0e8',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -29,11 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="it">
       <head>
-        {/* Google Fonts — loaded at runtime (non bloccano il build) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
           rel="stylesheet"
         />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />

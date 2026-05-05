@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { X, Check, Shuffle, ShoppingCart, StickyNote, Tag, ChevronDown, ChevronUp } from 'lucide-react'
-import { cn, scaleQuantity } from '@/lib/utils'
+import { scaleQuantity } from '@/lib/utils'
 import type { Meal, MealCompletion, MealStatus } from '@/types'
 import { MEAL_LABELS, MEAL_ICONS, SHOPPING_CATEGORY_LABELS } from '@/types'
 
@@ -48,44 +48,70 @@ export default function MealDetailDrawer({
       />
 
       {/* Drawer */}
-      <div className="fixed inset-x-0 bottom-0 z-50 bg-cream rounded-t-4xl shadow-[0_-8px_40px_rgba(0,0,0,0.12)] animate-slide-up max-h-[92dvh] flex flex-col"
-           style={{ paddingBottom: 'env(safe-area-inset-bottom, 16px)' }}>
-        
+      <div
+        className="fixed inset-x-0 bottom-0 z-50 animate-slide-up max-h-[92dvh] flex flex-col"
+        style={{
+          background: 'var(--color-cream)',
+          borderRadius: '28px 28px 0 0',
+          boxShadow: '0 -8px 40px rgba(0,0,0,0.14)',
+          paddingBottom: 'env(safe-area-inset-bottom, 16px)',
+        }}
+      >
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 rounded-full bg-warmgray-200" />
+          <div className="w-10 h-1 rounded-full" style={{ background: 'var(--color-ink-faint)' }} />
         </div>
 
-        {/* Header */}
-        <div className="flex items-start gap-3 px-5 py-3 border-b border-warmgray-100">
-          <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-sage-50 text-2xl flex-shrink-0">
+        {/* Header — dark band */}
+        <div
+          className="mx-4 mt-2 mb-0 rounded-2xl p-4 flex items-start gap-3"
+          style={{ background: 'var(--color-ink)' }}
+        >
+          <div
+            className="w-12 h-12 flex items-center justify-center rounded-xl text-2xl flex-shrink-0"
+            style={{ background: 'rgba(255,255,255,0.08)' }}
+          >
             {MEAL_ICONS[meal.type]}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-warmgray-400 uppercase tracking-wide">
+            <p
+              className="text-[10px] font-bold uppercase tracking-[0.12em] mb-1"
+              style={{ color: 'var(--color-orange)' }}
+            >
               {MEAL_LABELS[meal.type]}
             </p>
-            <h2 className="heading-display font-semibold text-warmgray-900 text-lg leading-snug">
+            <h2
+              className="text-white text-xl font-bold leading-snug"
+              style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}
+            >
               {meal.title}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-xl text-warmgray-400 hover:bg-warmgray-100"
+            className="w-8 h-8 flex items-center justify-center rounded-xl flex-shrink-0"
+            style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.08)' }}
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
           {/* Description + quantity */}
           <div>
-            <p className="text-warmgray-700 leading-relaxed">{meal.description}</p>
+            <p className="leading-relaxed text-sm" style={{ color: 'var(--color-ink-mid)' }}>
+              {meal.description}
+            </p>
             {meal.quantity && (
-              <div className="mt-2 inline-flex items-center gap-1.5 bg-sage-50 border border-sage-200 rounded-xl px-3 py-1.5">
-                <Tag className="w-3.5 h-3.5 text-sage-500" />
-                <span className="text-sm font-medium text-sage-700">{scaleQuantity(meal.quantity, quantityScale)}</span>
+              <div
+                className="mt-2 inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5"
+                style={{ background: 'var(--color-orange-pale)' }}
+              >
+                <Tag className="w-3.5 h-3.5" style={{ color: 'var(--color-orange)' }} />
+                <span className="text-sm font-bold" style={{ color: 'var(--color-orange-dark)' }}>
+                  {scaleQuantity(meal.quantity, quantityScale)}
+                </span>
               </div>
             )}
           </div>
@@ -93,17 +119,31 @@ export default function MealDetailDrawer({
           {/* Ingredients */}
           {meal.ingredients.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold text-warmgray-600 mb-2">Ingredienti</h3>
-              <div className="space-y-1.5">
-                {meal.ingredients.map(ing => (
-                  <div key={ing.id} className="flex items-center justify-between py-1.5 border-b border-warmgray-100 last:border-0">
-                    <span className="text-sm text-warmgray-700">{ing.name}</span>
-                    <span className="text-xs text-warmgray-400 ml-4">{scaleQuantity(ing.quantity, quantityScale)}</span>
+              <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--color-ink)', fontFamily: 'var(--font-display)' }}>
+                Ingredienti
+              </h3>
+              <div
+                className="rounded-2xl overflow-hidden"
+                style={{ border: '1.5px solid var(--color-cream-dark)' }}
+              >
+                {meal.ingredients.map((ing, idx) => (
+                  <div
+                    key={ing.id}
+                    className="flex items-center justify-between px-4 py-3"
+                    style={{
+                      borderBottom: idx < meal.ingredients.length - 1 ? '1px solid var(--color-cream-dark)' : 'none',
+                      background: '#fff',
+                    }}
+                  >
+                    <span className="text-sm" style={{ color: 'var(--color-ink-mid)' }}>{ing.name}</span>
+                    <span
+                      className="text-xs font-medium ml-4 px-2 py-0.5 rounded-full"
+                      style={{ background: 'var(--color-cream)', color: 'var(--color-ink-light)' }}
+                    >
+                      {scaleQuantity(ing.quantity, quantityScale)}
+                    </span>
                   </div>
                 ))}
-              </div>
-              <div className="mt-1.5 text-xs text-warmgray-400">
-                {SHOPPING_CATEGORY_LABELS[meal.ingredients[0]?.category] || ''}
               </div>
             </div>
           )}
@@ -112,7 +152,11 @@ export default function MealDetailDrawer({
           {meal.mealPrepTags && meal.mealPrepTags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {meal.mealPrepTags.map(tag => (
-                <span key={tag} className="inline-flex items-center gap-1 text-xs bg-golden-100 text-amber-700 border border-golden-200 rounded-xl px-3 py-1.5 font-medium">
+                <span
+                  key={tag}
+                  className="inline-flex items-center gap-1 text-xs rounded-xl px-3 py-1.5 font-medium"
+                  style={{ background: 'var(--color-gold-pale)', color: '#a07010' }}
+                >
                   {MEAL_PREP_LABELS[tag] || tag}
                 </span>
               ))}
@@ -121,29 +165,42 @@ export default function MealDetailDrawer({
 
           {/* Alternatives */}
           {meal.alternatives.length > 0 && (
-            <div className="bg-white rounded-2xl border border-warmgray-100 overflow-hidden">
+            <div
+              className="rounded-2xl overflow-hidden"
+              style={{ border: '1.5px solid var(--color-cream-dark)', background: '#fff' }}
+            >
               <button
                 className="w-full flex items-center justify-between px-4 py-3"
                 onClick={() => setShowAlts(!showAlts)}
               >
                 <div className="flex items-center gap-2">
-                  <Shuffle className="w-4 h-4 text-sage-500" />
-                  <span className="text-sm font-semibold text-warmgray-700">
-                    Alternative previste dal piano
+                  <Shuffle className="w-4 h-4" style={{ color: 'var(--color-orange)' }} />
+                  <span className="text-sm font-bold" style={{ color: 'var(--color-ink)' }}>
+                    Alternative previste
                   </span>
-                  <span className="w-5 h-5 bg-sage-100 text-sage-600 rounded-full text-xs flex items-center justify-center font-medium">
+                  <span
+                    className="w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold"
+                    style={{ background: 'var(--color-orange-pale)', color: 'var(--color-orange)' }}
+                  >
                     {meal.alternatives.length}
                   </span>
                 </div>
-                {showAlts ? <ChevronUp className="w-4 h-4 text-warmgray-400" /> : <ChevronDown className="w-4 h-4 text-warmgray-400" />}
+                {showAlts
+                  ? <ChevronUp className="w-4 h-4" style={{ color: 'var(--color-ink-faint)' }} />
+                  : <ChevronDown className="w-4 h-4" style={{ color: 'var(--color-ink-faint)' }} />
+                }
               </button>
               {showAlts && (
-                <div className="border-t border-warmgray-100 divide-y divide-warmgray-50">
-                  {meal.alternatives.map(alt => (
-                    <div key={alt.id} className="px-4 py-3">
-                      <p className="text-sm font-medium text-warmgray-700">{alt.title}</p>
+                <div style={{ borderTop: '1px solid var(--color-cream-dark)' }}>
+                  {meal.alternatives.map((alt, idx) => (
+                    <div
+                      key={alt.id}
+                      className="px-4 py-3"
+                      style={{ borderBottom: idx < meal.alternatives.length - 1 ? '1px solid var(--color-cream-dark)' : 'none' }}
+                    >
+                      <p className="text-sm font-semibold" style={{ color: 'var(--color-ink)' }}>{alt.title}</p>
                       {alt.description && (
-                        <p className="text-xs text-warmgray-500 mt-0.5">{alt.description}</p>
+                        <p className="text-xs mt-0.5" style={{ color: 'var(--color-ink-light)' }}>{alt.description}</p>
                       )}
                     </div>
                   ))}
@@ -155,7 +212,8 @@ export default function MealDetailDrawer({
           {/* Note */}
           <div>
             <button
-              className="flex items-center gap-2 text-sm font-medium text-warmgray-500 hover:text-warmgray-700 transition-colors"
+              className="flex items-center gap-2 text-sm font-medium transition-colors"
+              style={{ color: 'var(--color-ink-light)' }}
               onClick={() => setShowNote(!showNote)}
             >
               <StickyNote className="w-4 h-4" />
@@ -167,7 +225,12 @@ export default function MealDetailDrawer({
                   value={noteText}
                   onChange={e => setNoteText(e.target.value)}
                   placeholder="Come è andata? Hai modificato qualcosa?"
-                  className="w-full bg-white border border-warmgray-200 rounded-2xl px-4 py-3 text-sm text-warmgray-700 placeholder-warmgray-300 focus:outline-none focus:border-sage-300 resize-none"
+                  className="w-full rounded-2xl px-4 py-3 text-sm placeholder-opacity-40 resize-none focus:outline-none"
+                  style={{
+                    background: '#fff',
+                    border: '1.5px solid var(--color-cream-dark)',
+                    color: 'var(--color-ink)',
+                  }}
                   rows={3}
                 />
               </div>
@@ -176,19 +239,24 @@ export default function MealDetailDrawer({
         </div>
 
         {/* Action footer */}
-        <div className="px-5 pb-4 pt-3 border-t border-warmgray-100 flex gap-3">
+        <div
+          className="px-4 pb-4 pt-3 flex gap-3"
+          style={{ borderTop: '1px solid var(--color-cream-dark)' }}
+        >
           <button
             onClick={() => onAddToShopping(meal)}
-            className="flex items-center justify-center gap-2 px-4 py-3 bg-warmgray-100 text-warmgray-600 rounded-2xl font-medium text-sm hover:bg-warmgray-200 transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-medium text-sm transition-all active:scale-95"
+            style={{ background: 'var(--color-cream-dark)', color: 'var(--color-ink-mid)' }}
           >
             <ShoppingCart className="w-4 h-4" />
-            Aggiungi alla spesa
+            Spesa
           </button>
 
           {status !== 'done' ? (
             <button
               onClick={() => { handleComplete('done'); onClose() }}
-              className="flex-1 flex items-center justify-center gap-2 py-3 bg-sage-500 text-white rounded-2xl font-medium text-sm hover:bg-sage-600 active:scale-[0.98] transition-all shadow-sm"
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm text-white transition-all active:scale-[0.98]"
+              style={{ background: 'var(--color-orange)' }}
             >
               <Check className="w-4 h-4" />
               Segna come fatto
@@ -196,7 +264,8 @@ export default function MealDetailDrawer({
           ) : (
             <button
               onClick={() => { handleComplete('pending'); onClose() }}
-              className="flex-1 flex items-center justify-center gap-2 py-3 bg-warmgray-200 text-warmgray-600 rounded-2xl font-medium text-sm hover:bg-warmgray-300 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-medium text-sm transition-all"
+              style={{ background: 'var(--color-cream-dark)', color: 'var(--color-ink-mid)' }}
             >
               Annulla completamento
             </button>

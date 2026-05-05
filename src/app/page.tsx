@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { format } from 'date-fns'
 import { it } from 'date-fns/locale'
-import { Leaf, ChevronRight, ShoppingCart } from 'lucide-react'
+import { ChevronRight, ShoppingCart } from 'lucide-react'
 import AppShell from '@/components/AppShell'
 import MealCard from '@/components/MealCard'
 import { useAppStore } from '@/lib/store'
@@ -12,7 +12,6 @@ import planData from '@/data/plan.json'
 import type { Meal, MealStatus } from '@/types'
 import { NutritionPlan } from '@/types'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
 
 const defaultPlan = planData as unknown as NutritionPlan
 
@@ -77,73 +76,114 @@ export default function TodayPage() {
   }
 
   const quantityScale = useAppStore(s => s.profileSettings[profile]?.quantityScale ?? 1)
-  const todayLabel = capitalizeFirst(format(new Date(), 'EEEE d MMMM', { locale: it }))
+
+  // Format day parts for editorial header
+  const dayOfWeek = capitalizeFirst(format(new Date(), 'EEEE', { locale: it }))
+  const dayNumber = format(new Date(), 'd')
+  const monthYear = capitalizeFirst(format(new Date(), 'MMMM', { locale: it }))
 
   return (
     <AppShell>
       {/* ── Toast ── */}
       {toast && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-slide-up pointer-events-none">
-          <div className="flex items-center gap-2 bg-warmgray-800 text-white text-sm font-medium px-4 py-2.5 rounded-2xl shadow-lg whitespace-nowrap">
-            <ShoppingCart className="w-3.5 h-3.5 text-sage-300" />
+          <div
+            className="flex items-center gap-2 text-white text-sm font-semibold px-4 py-2.5 rounded-2xl shadow-lg whitespace-nowrap"
+            style={{ background: 'var(--color-ink)' }}
+          >
+            <ShoppingCart className="w-3.5 h-3.5" style={{ color: 'var(--color-orange)' }} />
             {toast}
           </div>
         </div>
       )}
 
-      <div className="px-4 pt-5 pb-6 space-y-4 stagger-children">
+      <div className="px-4 pt-4 pb-6 space-y-4 stagger-children">
 
-        {/* ── Day header card ── */}
-        <div className="card border border-warmgray-100/60 p-5">
-          <div className="flex items-start justify-between">
-            <div className="flex-1 min-w-0 pr-4">
-              {/* Week badge */}
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold bg-sage-100 text-sage-700 px-3 py-1 rounded-full tracking-wide">
-                  <Leaf className="w-3 h-3" />
-                  {cycleInfo.weekLabel} · Giorno {cycleInfo.cycleDay}
-                </span>
-              </div>
-              <h2 className="heading-display text-2xl font-bold text-warmgray-900 leading-tight">
-                {todayLabel}
-              </h2>
-              <p className="text-sm text-warmgray-400 mt-1.5 font-medium">
-                {doneCount === totalMeals && totalMeals > 0
-                  ? '🌿 Tutti i pasti completati!'
-                  : `${totalMeals - doneCount} pasti ancora da completare`
-                }
-              </p>
-            </div>
-
-            {/* Progress ring */}
-            <div className="relative w-16 h-16 flex-shrink-0">
-              <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
-                <circle cx="32" cy="32" r="26" fill="none" stroke="#daeee2" strokeWidth="5" />
-                <circle
-                  cx="32" cy="32" r="26"
-                  fill="none"
-                  stroke="#4a8b5c"
-                  strokeWidth="5"
-                  strokeDasharray={`${2 * Math.PI * 26}`}
-                  strokeDashoffset={`${2 * Math.PI * 26 * (1 - progressPct / 100)}`}
-                  strokeLinecap="round"
-                  className="transition-all duration-700"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-lg font-bold text-sage leading-none">{doneCount}</span>
-                <span className="text-[10px] text-warmgray-400 font-medium">/{totalMeals}</span>
-              </div>
-            </div>
+        {/* ── EDITORIAL HERO HEADER ── */}
+        <div
+          className="rounded-[28px] overflow-hidden relative"
+          style={{ background: 'var(--color-ink)' }}
+        >
+          {/* Big decorative letter in background */}
+          <div
+            className="absolute right-3 top-1/2 -translate-y-1/2 select-none pointer-events-none leading-none"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '9rem',
+              color: 'rgba(255,255,255,0.04)',
+              letterSpacing: '-0.05em',
+            }}
+          >
+            {dayNumber}
           </div>
 
-          {/* Progress bar */}
-          <div className="mt-4">
-            <div className="h-1.5 bg-sage-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-sage rounded-full transition-all duration-700"
-                style={{ width: `${progressPct}%` }}
-              />
+          <div className="px-5 py-5 relative z-10">
+            {/* Cycle badge */}
+            <div className="flex items-center gap-2 mb-3">
+              <span
+                className="text-[10px] font-bold tracking-[0.12em] uppercase px-3 py-1 rounded-full"
+                style={{ background: 'var(--color-orange)', color: '#fff' }}
+              >
+                {cycleInfo.weekLabel} · Giorno {cycleInfo.cycleDay}
+              </span>
+            </div>
+
+            {/* Day name — big editorial */}
+            <div className="flex items-end justify-between">
+              <div>
+                <p
+                  className="text-[11px] font-medium mb-1 tracking-wide"
+                  style={{ color: 'rgba(255,255,255,0.45)' }}
+                >
+                  {monthYear}
+                </p>
+                <h2
+                  className="heading-display text-[3.2rem] text-white leading-none"
+                >
+                  {dayOfWeek}
+                </h2>
+              </div>
+
+              {/* Progress ring */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="relative w-[68px] h-[68px]">
+                  <svg className="w-[68px] h-[68px] -rotate-90" viewBox="0 0 68 68">
+                    <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="5" />
+                    <circle
+                      cx="34" cy="34" r="28"
+                      fill="none"
+                      stroke="var(--color-orange)"
+                      strokeWidth="5"
+                      strokeDasharray={`${2 * Math.PI * 28}`}
+                      strokeDashoffset={`${2 * Math.PI * 28 * (1 - progressPct / 100)}`}
+                      strokeLinecap="round"
+                      className="transition-all duration-700"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-[22px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+                      {doneCount}
+                    </span>
+                    <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      /{totalMeals}
+                    </span>
+                  </div>
+                </div>
+                <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  {doneCount === totalMeals && totalMeals > 0 ? 'Tutto fatto!' : 'pasti'}
+                </span>
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            <div className="mt-4">
+              <div className="h-[3px] rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${progressPct}%`, background: 'var(--color-orange)' }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -151,29 +191,41 @@ export default function TodayPage() {
         {/* ── Quick nav ── */}
         <Link
           href="/plan"
-          className="flex items-center justify-between bg-sage-50 border border-sage-100 rounded-2xl px-4 py-3 hover:bg-sage-100 transition-colors"
+          className="flex items-center justify-between rounded-2xl px-4 py-3 transition-all duration-200 active:scale-[0.98]"
+          style={{ background: 'var(--color-orange-pale)' }}
         >
-          <span className="text-sm font-semibold text-sage-700">Vedi il piano completo</span>
-          <ChevronRight className="w-4 h-4 text-sage-400" />
+          <span className="text-sm font-bold" style={{ color: 'var(--color-orange-dark)' }}>
+            Vedi il piano completo
+          </span>
+          <ChevronRight className="w-4 h-4" style={{ color: 'var(--color-orange)' }} />
         </Link>
 
         {/* ── Meals ── */}
         {!dayPlan ? (
-          <div className="card border border-warmgray-100 p-10 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-warmgray-50 flex items-center justify-center mx-auto mb-4">
-              <Leaf className="w-6 h-6 text-warmgray-300" />
+          <div className="card p-10 text-center">
+            <div
+              className="w-14 h-14 rounded-3xl flex items-center justify-center mx-auto mb-4 text-2xl"
+              style={{ background: 'var(--color-cream)' }}
+            >
+              🌿
             </div>
-            <p className="text-warmgray-600 font-semibold mb-1">Piano non configurato</p>
-            <p className="text-warmgray-400 text-sm mb-4">
-              Imposta la data di inizio piano per vedere i tuoi pasti di oggi.
+            <p className="font-bold text-lg mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+              Piano non configurato
             </p>
-            <Link href="/settings" className="btn-primary text-sm px-5 py-2.5">
+            <p className="text-sm mb-4" style={{ color: 'var(--color-ink-light)' }}>
+              Imposta la data di inizio piano per vedere i tuoi pasti.
+            </p>
+            <Link
+              href="/settings"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-white text-sm font-bold transition-all active:scale-95"
+              style={{ background: 'var(--color-orange)' }}
+            >
               Vai alle impostazioni
             </Link>
           </div>
         ) : (
           <div className="space-y-3">
-            <h3 className="label-micro px-1">I pasti di oggi</h3>
+            <p className="label-micro px-1">I pasti di oggi</p>
             {dayPlan.meals.map(meal => (
               <MealCard
                 key={meal.id}
@@ -189,10 +241,12 @@ export default function TodayPage() {
         )}
 
         {/* ── Disclaimer ── */}
-        <div className="rounded-2xl border border-warmgray-100 bg-warmgray-50/60 px-4 py-3.5">
-          <p className="text-xs text-warmgray-400 leading-relaxed text-center">
-            🌿 Questo piano è stato assegnato dal tuo nutrizionista.
-            L'app ti aiuta solo a seguirlo — non sostituisce il consiglio professionale.
+        <div
+          className="rounded-2xl px-4 py-3"
+          style={{ background: 'var(--color-cream-dark)' }}
+        >
+          <p className="text-xs text-center leading-relaxed" style={{ color: 'var(--color-ink-light)' }}>
+            🌿 Questo piano è stato assegnato dal tuo nutrizionista. L'app ti aiuta solo a seguirlo.
           </p>
         </div>
       </div>
